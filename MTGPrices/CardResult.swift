@@ -1,0 +1,71 @@
+//
+//  CardResult.swift
+//  MTGPrices
+//
+//  Created by Gabriele Pregadio on 11/28/16.
+//  Copyright © 2016 Gabriele Pregadio. All rights reserved.
+//
+
+import Foundation
+import ObjectMapper
+
+struct CardResult: Mappable {
+    
+    var name: String!
+    var manaCost: String?
+    var cmc: String = "None"
+    var rarity: String!
+    var set: String!
+    var text: String?
+    var power: String?
+    var toughness: String?
+    var imageUrl: String?
+    var id: String!
+    var colors: [String]? = ["Colorless"]
+    var type: String!
+    var subtypes: [String]?
+    var types: [String]!
+    var supertypes: [String]?
+    
+    init?(map: Map) { }
+    
+    mutating func mapping(map: Map) {
+        
+        let intToString = TransformOf<String, Int>(
+            fromJSON: { (value: Int?) -> String? in
+                if let value = value {
+//                    print("mapping '\(value)' cmc as a string")
+                    return String(value)
+                } else {
+//                    print("mapped cmc to 'none'")
+                    return "None"
+                }
+            },
+            toJSON:  { (value: String?) -> Int? in
+                if let value = value {
+                    return Int(value)
+                } else {
+                    return nil
+                }
+            }
+        )
+        
+        name        <- map["name"]
+        manaCost    <- map["manaCost"]
+        cmc         <- (map["cmc"], intToString)
+        rarity      <- map["rarity"]
+        set         <- map["set"]
+        text        <- map["text"]
+        power       <- map["power"]
+        toughness   <- map["toughness"]
+        imageUrl    <- map["imageUrl"]
+        id          <- map["id"]
+        colors      <- map["colors"]
+        type        <- map["type"]
+        subtypes    <- map["subtypes"]
+        types       <- map["types"]
+        supertypes  <- map["supertypes"]
+        
+    }
+    
+}
