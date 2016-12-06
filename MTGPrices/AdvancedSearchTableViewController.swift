@@ -9,6 +9,8 @@
 import UIKit
 import ReSwift
 
+// Probably change this whole implementation to make it look something like Yelp's filter screen
+
 class AdvancedSearchTableViewController: UITableViewController, StoreSubscriber {
     
     // MARK: - Stored Properties
