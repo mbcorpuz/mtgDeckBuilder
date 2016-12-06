@@ -61,7 +61,7 @@ extension AddCardViewController: UITableViewDelegate, UITableViewDataSource, UIS
 //        for i in 1...4 {
 //            ac.addAction(UIAlertAction(title: String(i), style: .default, handler: { [unowned self] action in
 //                card.amount = i
-//                store.dispatch(AddCardToDeck(deck: self.deck, card: card))
+//                store.dispatch(AddCardResultToDeck(deck: self.deck, card: card))
 //            }))
 //        }
 //        present(ac, animated: true)

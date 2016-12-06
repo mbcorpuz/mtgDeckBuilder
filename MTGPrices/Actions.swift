@@ -35,7 +35,7 @@ struct DeleteDeck: Action {
     let index: Int
 }
 
-struct AddCardToDeck: Action {
+struct AddCardResultToDeck: Action {
     let deck: Deck
     let card: CardResult
 }

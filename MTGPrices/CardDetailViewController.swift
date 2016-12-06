@@ -46,8 +46,9 @@ class CardDetailViewController: UIViewController, StoreSubscriber {
     
     @IBAction func addButtonPressed(_ sender: UIButton) {
         if shouldUseResult {
-            store.dispatch(AddCardToDeck(deck: deck, card: cardResult!))
+            store.dispatch(AddCardResultToDeck(deck: deck, card: cardResult!))
         } else {
+            // TODO: - Fix this. Currently, when the user removes the card entirely, the reference to `card` is lost.
             store.dispatch(IncrementCardAmount(card: card!))
         }
     }

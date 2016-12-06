@@ -83,7 +83,7 @@ struct StateReducer: Reducer {
             appDelegate.saveContext()
             state.decks.remove(at: action.index)
             
-        case let action as AddCardToDeck:
+        case let action as AddCardResultToDeck:
             let request = Card.createFetchRequest()
             request.predicate = NSPredicate(format: "deck.id == %@ AND id == %@", action.deck.id, action.card.id)
             if let existingCards = try? appDelegate.persistentContainer.viewContext.fetch(request) {
