@@ -23,7 +23,7 @@ class DeckViewController: UIViewController, StoreSubscriber {
     var cards = [Card]()
     
     var creatures: [Card] {
-        return cards.filter { $0.type.contains("Creature") && !$0.type.contains("Land") }.sorted {
+        return cards.filter { ($0.type.contains("Creature") || $0.type.contains("Summon")) && !$0.type.contains("Land") }.sorted {
             if $0.0.cmc.cmcToInt != $0.1.cmc.cmcToInt {
                 return $0.0.cmc.cmcToInt < $0.1.cmc.cmcToInt
             } else {
