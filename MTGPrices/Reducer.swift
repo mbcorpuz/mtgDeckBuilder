@@ -59,13 +59,21 @@ struct StateReducer: Reducer {
             if let cards = try? appDelegate.persistentContainer.viewContext.fetch(request) {
                 if !cards.isEmpty {
                     cards[0].amount = max(cards[0].amount - 1, 0)
-                    if cards[0].amount == 0 {
-                        appDelegate.persistentContainer.viewContext.delete(cards[0])
-                        print("deleted card reference")
-                    }
                 }
             } else {
                 print("core data error fetching")
+            }
+            appDelegate.saveContext()
+            
+        case let action as UpdateCardReference:
+            let request = Card.createFetchRequest()
+            request.predicate = NSPredicate(format: "deck.id == %@ AND id == %@", action.deck.id, action.cardId)
+            if let cards = try? appDelegate.persistentContainer.viewContext.fetch(request) {
+                if !cards.isEmpty {
+                    if cards[0].amount == 0 {
+                        appDelegate.persistentContainer.viewContext.delete(cards[0])
+                    }
+                }
             }
             appDelegate.saveContext()
             

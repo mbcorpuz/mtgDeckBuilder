@@ -30,6 +30,11 @@ struct DecrementCardAmount: Action {
     let cardId: String
 }
 
+struct UpdateCardReference: Action {
+    let deck: Deck
+    let cardId: String
+}
+
 struct DeleteDeck: Action {
     let deck: Deck
     let index: Int

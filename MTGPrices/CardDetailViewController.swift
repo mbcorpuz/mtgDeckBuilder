@@ -70,6 +70,11 @@ class CardDetailViewController: UIViewController, StoreSubscriber {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        if shouldUseResult {
+            store.dispatch(UpdateCardReference(deck: deck, cardId: cardResult!.id))
+        } else {
+            store.dispatch(UpdateCardReference(deck: deck, cardId: card!.id))
+        }
         store.unsubscribe(self)
     }
     
