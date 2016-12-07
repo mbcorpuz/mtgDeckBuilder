@@ -17,6 +17,7 @@
         <relationship name="deck" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Deck" inverseName="cards" inverseEntity="Deck" syncable="YES"/>
     </entity>
     <entity name="Deck" representedClassName=".Deck" syncable="YES">
+        <attribute name="folder" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="format" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
@@ -29,6 +30,6 @@
     </entity>
     <elements>
         <element name="Card" positionX="232" positionY="-184" width="128" height="253"/>
-        <element name="Deck" positionX="-38" positionY="-180" width="128" height="105"/>
+        <element name="Deck" positionX="-38" positionY="-180" width="128" height="120"/>
     </elements>
 </model>

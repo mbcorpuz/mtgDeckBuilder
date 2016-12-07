@@ -45,7 +45,7 @@ extension DeckListViewController: UITableViewDataSource, UITableViewDelegate {
             cell = tableView.dequeueReusableCell(withIdentifier: Cell.showDeckCellIdentifier, for: indexPath)
             let deck = decks[indexPath.row]
             cell.textLabel?.text = deck.name
-            cell.detailTextLabel?.text = "\(deck.format), \(deck.cards.count) cards"
+            cell.detailTextLabel?.text = "\(deck.format)"
         }
         
         return cell

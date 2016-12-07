@@ -2,7 +2,7 @@
 //  Deck+CoreDataProperties.swift
 //  MTGPrices
 //
-//  Created by Gabriele Pregadio on 11/30/16.
+//  Created by Gabriele Pregadio on 12/7/16.
 //  Copyright © 2016 Gabriele Pregadio. All rights reserved.
 //
 
@@ -18,6 +18,7 @@ extension Deck {
     @NSManaged public var format: String
     @NSManaged public var id: String
     @NSManaged public var name: String
+    @NSManaged public var folder: String?
     @NSManaged public var cards: NSSet
 
 }
