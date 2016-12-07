@@ -44,34 +44,37 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell
-        
         switch indexPath.section {
         case 0:
             // Add Card
-            cell = tableView.dequeueReusableCell(withIdentifier: Cell.addCard, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: Cell.addCard, for: indexPath)
             cell.textLabel?.text = "Add Card"
+            return cell
         case 1:
             // Creature
-            cell = tableView.dequeueReusableCell(withIdentifier: Cell.creatureCell, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: Cell.creatureCell, for: indexPath) as! CardTableViewCell
             let creature = creatures[indexPath.row]
-            cell.textLabel?.text = "\(creature.amount) \(creature.name)"
-            cell.detailTextLabel?.text = "\(creature.type), Cost: \(creature.cmc), Colors: \(creature.colors!)"
+            cell.title.text = "\(creature.amount) \(creature.name)"
+            cell.subtitle.text = "\(creature.type), Cost: \(creature.cmc), Colors: \(creature.colors!)"
+            cell.downloadImage(from: creature.imageUrl)
+            return cell
         case 2:
             // Spell
-            cell = tableView.dequeueReusableCell(withIdentifier: Cell.spellCell, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: Cell.spellCell, for: indexPath)  as! CardTableViewCell
             let spell = spells[indexPath.row]
-            cell.textLabel?.text = "\(spell.amount) \(spell.name)"
-            cell.detailTextLabel?.text = "\(spell.type), Cost: \(spell.cmc), Colors: \(spell.colors!)"
+            cell.title.text = "\(spell.amount) \(spell.name)"
+            cell.subtitle.text = "\(spell.type), Cost: \(spell.cmc), Colors: \(spell.colors!)"
+            cell.downloadImage(from: spell.imageUrl)
+            return cell
         default:
             // Land
-            cell = tableView.dequeueReusableCell(withIdentifier: Cell.landCell, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: Cell.landCell, for: indexPath) as! CardTableViewCell
             let land = lands[indexPath.row]
-            cell.textLabel?.text = "\(land.amount) \(land.name)"
-            cell.detailTextLabel?.text = "\(land.type)"
+            cell.title.text = "\(land.amount) \(land.name)"
+            cell.subtitle.text = "\(land.type)"
+            cell.downloadImage(from: land.imageUrl)
+            return cell
         }
-        
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -50,17 +50,16 @@ class DeckViewController: UIViewController, StoreSubscriber {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("view didload")
         
         title = deck.name
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Deck", style: .plain, target: nil, action: nil)
         
-        fetchCards()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         store.subscribe(self)
-        fetchCards()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -87,6 +86,8 @@ class DeckViewController: UIViewController, StoreSubscriber {
         if let cards = try? appDelegate.persistentContainer.viewContext.fetch(cardRequest) {
             self.cards = cards
             tableView.reloadData()
+        } else {
+            print("core data error fetching")
         }
     }
     
