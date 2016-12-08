@@ -25,7 +25,7 @@ class DeckListViewController: UIViewController, StoreSubscriber {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("testing difference")
         title = "Decklist Viewer"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Decks", style: .plain, target: nil, action: nil)
     }
