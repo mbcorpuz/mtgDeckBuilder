@@ -119,11 +119,11 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Creature" id="Ym6-Yg-zUx" customClass="CardTableViewCell" customModule="MTGPrices" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Creature" id="Ym6-Yg-zUx" customClass="CardTableViewCell" customModule="MTGPrices" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ym6-Yg-zUx" id="sSt-5H-Xa7">
-                                            <frame key="frameInset" width="328" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QDh-ao-OnA">
@@ -132,49 +132,70 @@
                                                         <constraint firstAttribute="width" constant="73" id="Fxb-cF-Eh1"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Creature Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3RL-2p-qzc">
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type, cost" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Rk-Y0-tpT">
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Image" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gzh-Ly-o1g">
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0Rk-Y0-tpT">
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RDK-ki-wcp">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="bEc-JF-Ava"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="500" ambiguous="YES" misplaced="YES" distribution="equalSpacing" alignment="center" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="hsG-Vw-lYV">
+                                                    <frame key="frameInset" minX="312" minY="5" width="55" height="21"/>
+                                                </stackView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Creature Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="3RL-2p-qzc">
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="TVF-E3-WOS"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="0Rk-Y0-tpT" firstAttribute="top" secondItem="3RL-2p-qzc" secondAttribute="bottom" id="0Ej-1i-BCq"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="0Rk-Y0-tpT" secondAttribute="trailing" id="2lK-RN-90y"/>
+                                                <constraint firstItem="hsG-Vw-lYV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="3RL-2p-qzc" secondAttribute="trailing" constant="8" symbolic="YES" id="ADU-C1-Mj9"/>
+                                                <constraint firstItem="3RL-2p-qzc" firstAttribute="leading" secondItem="RDK-ki-wcp" secondAttribute="trailing" constant="8" symbolic="YES" id="BS3-8e-ZPp"/>
                                                 <constraint firstItem="gzh-Ly-o1g" firstAttribute="width" secondItem="QDh-ao-OnA" secondAttribute="width" id="BTm-8S-tdC"/>
-                                                <constraint firstItem="0Rk-Y0-tpT" firstAttribute="width" secondItem="3RL-2p-qzc" secondAttribute="width" id="KDb-XQ-VYh"/>
+                                                <constraint firstItem="RDK-ki-wcp" firstAttribute="leading" secondItem="QDh-ao-OnA" secondAttribute="trailing" constant="8" symbolic="YES" id="Eka-Yy-1gT"/>
                                                 <constraint firstItem="gzh-Ly-o1g" firstAttribute="centerX" secondItem="QDh-ao-OnA" secondAttribute="centerX" id="MZg-pi-yvm"/>
                                                 <constraint firstItem="gzh-Ly-o1g" firstAttribute="centerY" secondItem="QDh-ao-OnA" secondAttribute="centerY" id="Nu1-BE-CEj"/>
                                                 <constraint firstItem="QDh-ao-OnA" firstAttribute="leading" secondItem="sSt-5H-Xa7" secondAttribute="leadingMargin" id="UIa-Vt-asY"/>
                                                 <constraint firstItem="0Rk-Y0-tpT" firstAttribute="leading" secondItem="QDh-ao-OnA" secondAttribute="trailing" constant="8" symbolic="YES" id="WCa-zf-fle"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="3RL-2p-qzc" secondAttribute="trailing" id="ac3-v8-RcW"/>
-                                                <constraint firstItem="0Rk-Y0-tpT" firstAttribute="leading" secondItem="3RL-2p-qzc" secondAttribute="leading" id="d9f-u2-nWy"/>
-                                                <constraint firstItem="3RL-2p-qzc" firstAttribute="leading" secondItem="QDh-ao-OnA" secondAttribute="trailing" constant="8" symbolic="YES" id="dJV-tv-pkO"/>
+                                                <constraint firstItem="hsG-Vw-lYV" firstAttribute="height" secondItem="3RL-2p-qzc" secondAttribute="height" id="XaT-nu-q1F"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="hsG-Vw-lYV" secondAttribute="trailing" id="YwQ-8B-xD3"/>
+                                                <constraint firstItem="RDK-ki-wcp" firstAttribute="height" secondItem="3RL-2p-qzc" secondAttribute="height" id="Z47-Ca-oWe"/>
                                                 <constraint firstItem="3RL-2p-qzc" firstAttribute="top" secondItem="sSt-5H-Xa7" secondAttribute="topMargin" constant="-3" id="fDn-hb-d5g"/>
                                                 <constraint firstItem="QDh-ao-OnA" firstAttribute="centerY" secondItem="sSt-5H-Xa7" secondAttribute="centerY" id="iQa-uB-6Z7"/>
+                                                <constraint firstItem="RDK-ki-wcp" firstAttribute="centerY" secondItem="3RL-2p-qzc" secondAttribute="centerY" id="laH-3R-sAA"/>
+                                                <constraint firstItem="hsG-Vw-lYV" firstAttribute="centerY" secondItem="3RL-2p-qzc" secondAttribute="centerY" id="rJN-Ei-XI3"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="amountLabel" destination="RDK-ki-wcp" id="0pe-Vh-rcK"/>
                                             <outlet property="cardImageView" destination="QDh-ao-OnA" id="ALx-8T-Cyp"/>
+                                            <outlet property="costStackView" destination="hsG-Vw-lYV" id="96t-ND-nqb"/>
                                             <outlet property="imageLabel" destination="gzh-Ly-o1g" id="eI9-42-dQq"/>
                                             <outlet property="subtitle" destination="0Rk-Y0-tpT" id="I2t-5z-GvC"/>
                                             <outlet property="title" destination="3RL-2p-qzc" id="UlZ-V2-B3R"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Spell" id="83I-7w-0Y2" customClass="CardTableViewCell" customModule="MTGPrices" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Spell" id="83I-7w-0Y2" customClass="CardTableViewCell" customModule="MTGPrices" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="143.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="83I-7w-0Y2" id="qfE-uI-zpZ">
-                                            <frame key="frameInset" width="328" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LNc-4g-gbf">
@@ -188,7 +209,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type, cost" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="68y-VL-Spn">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type, cost" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="68y-VL-Spn">
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -221,11 +242,11 @@
                                             <outlet property="title" destination="Xki-SD-R4M" id="6xh-oZ-iQz"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Land" id="Kfa-57-h6p" customClass="CardTableViewCell" customModule="MTGPrices" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Land" id="Kfa-57-h6p" customClass="CardTableViewCell" customModule="MTGPrices" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="187.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kfa-57-h6p" id="Z7P-Ts-BiT">
-                                            <frame key="frameInset" width="328" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ncH-la-wbD">
@@ -239,7 +260,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RbS-LQ-S6j">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="RbS-LQ-S6j">
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>

@@ -5,12 +5,11 @@
 //  Created by Gabriele Pregadio on 11/29/16.
 //  Copyright © 2016 Gabriele Pregadio. All rights reserved.
 //
-
 import UIKit
 import ReSwift
 
 class DeckViewController: UIViewController, StoreSubscriber {
-
+    
     // MARK: - IBOutlets
     
     @IBOutlet weak var tableView: UITableView!
@@ -50,7 +49,6 @@ class DeckViewController: UIViewController, StoreSubscriber {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("view didload")
         
         title = deck.name
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Deck", style: .plain, target: nil, action: nil)
@@ -95,6 +93,7 @@ class DeckViewController: UIViewController, StoreSubscriber {
     // MARK: - StoreSubscriber Delegate Methods
     
     func newState(state: State) {
+        print("new state received, changing data source and reloading table view")
         fetchCards()
     }
     

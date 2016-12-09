@@ -137,7 +137,7 @@ struct StateReducer: Reducer {
         case let action as SetNewParameters:
             state.parameters = action.parameters
             state.shouldSearch = true
-        
+            
         default:
             break
         }

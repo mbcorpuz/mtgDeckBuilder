@@ -5,7 +5,6 @@
 //  Created by Gabriele Pregadio on 11/30/16.
 //  Copyright © 2016 Gabriele Pregadio. All rights reserved.
 //
-
 import Foundation
 import UIKit
 
@@ -54,9 +53,12 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
             // Creature
             let cell = tableView.dequeueReusableCell(withIdentifier: Cell.creatureCell, for: indexPath) as! CardTableViewCell
             let creature = creatures[indexPath.row]
-            cell.title.text = "\(creature.amount) \(creature.name)"
-            cell.subtitle.text = "\(creature.type), Cost: \(creature.cmc), Colors: \(creature.colors!)"
+            cell.amountLabel.text = "\(creature.amount)"
+            cell.title.text = creature.name
+            cell.subtitle.text = creature.type
             cell.downloadImage(from: creature.imageUrl)
+            print("calling configureCost from cellForRow")
+            cell.configureCost(from: creature.manaCost!.createCmcImages())
             return cell
         case 2:
             // Spell
@@ -126,5 +128,5 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
         default: return lands[indexPath.row]
         }
     }
-
+    
 }

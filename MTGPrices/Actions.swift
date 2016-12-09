@@ -59,4 +59,3 @@ struct SearchForCards: Action {
     let isLoading: Bool
     let remainingRequests: Int?
 }
-
