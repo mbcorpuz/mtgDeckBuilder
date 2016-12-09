@@ -47,7 +47,7 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             // Add Card
             let cell = tableView.dequeueReusableCell(withIdentifier: Cell.addCard, for: indexPath)
-            cell.textLabel?.text = "Add Card"
+            cell.textLabel?.text = "Card Search"
             return cell
         case 1:
             // Creature
@@ -57,23 +57,25 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
             cell.title.text = creature.name
             cell.subtitle.text = creature.type
             cell.downloadImage(from: creature.imageUrl)
-            print("calling configureCost from cellForRow")
-            cell.configureCost(from: creature.manaCost!.createCmcImages())
+            cell.configureCost(from: creature.manaCost!.createManaCostImages())
             return cell
         case 2:
             // Spell
             let cell = tableView.dequeueReusableCell(withIdentifier: Cell.spellCell, for: indexPath)  as! CardTableViewCell
             let spell = spells[indexPath.row]
-            cell.title.text = "\(spell.amount) \(spell.name)"
-            cell.subtitle.text = "\(spell.type), Cost: \(spell.cmc), Colors: \(spell.colors!)"
+            cell.amountLabel.text = "\(spell.amount)"
+            cell.title.text = spell.name
+            cell.subtitle.text = spell.type
             cell.downloadImage(from: spell.imageUrl)
+            cell.configureCost(from: spell.manaCost?.createManaCostImages())
             return cell
         default:
             // Land
             let cell = tableView.dequeueReusableCell(withIdentifier: Cell.landCell, for: indexPath) as! CardTableViewCell
             let land = lands[indexPath.row]
-            cell.title.text = "\(land.amount) \(land.name)"
-            cell.subtitle.text = "\(land.type)"
+            cell.amountLabel.text = "\(land.amount)"
+            cell.title.text = land.name
+            cell.subtitle.text = land.type
             cell.downloadImage(from: land.imageUrl)
             return cell
         }

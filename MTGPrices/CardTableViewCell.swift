@@ -21,7 +21,6 @@ class CardTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         imageLabel.text = "Loading image..."
-        print("awakeFromNib called")
     }
     
     func downloadImage(from urlOptionalString: String?) {
@@ -47,7 +46,13 @@ class CardTableViewCell: UITableViewCell {
         }
     }
     
-    func configureCost(from imageViews: [UIImageView]) {
+    func configureCost(from imageViews: [UIImageView]?) {
+        guard let imageViews = imageViews else {
+            costStackView.isHidden = true
+            return
+        }
+        costStackView.isHidden = false
+        
         for view in costStackView.arrangedSubviews {
             costStackView.removeArrangedSubview(view)
             view.removeFromSuperview()

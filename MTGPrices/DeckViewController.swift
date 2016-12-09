@@ -52,7 +52,7 @@ class DeckViewController: UIViewController, StoreSubscriber {
         
         title = deck.name
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Deck", style: .plain, target: nil, action: nil)
-        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Land", style: .plain, target: self, action: #selector(addLandButtonTapped))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,6 +78,10 @@ class DeckViewController: UIViewController, StoreSubscriber {
     
     // MARK: - Methods
     
+    func addLandButtonTapped() {
+        
+    }
+    
     func fetchCards() {
         let cardRequest = Card.createFetchRequest()
         cardRequest.predicate = NSPredicate(format: "deck.id == %@", deck.id)
@@ -93,7 +97,6 @@ class DeckViewController: UIViewController, StoreSubscriber {
     // MARK: - StoreSubscriber Delegate Methods
     
     func newState(state: State) {
-        print("new state received, changing data source and reloading table view")
         fetchCards()
     }
     

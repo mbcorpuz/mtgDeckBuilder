@@ -18,9 +18,7 @@ extension String {
         }
     }
     
-    func createCmcImages() -> [UIImageView] {
-        guard self != "None" else { return [] }
-        
+    func createManaCostImages() -> [UIImageView] {
         var images = [UIImageView]()
         var costStrings = self.components(separatedBy: "{")
         for (index, string) in costStrings.enumerated() {
@@ -29,8 +27,10 @@ extension String {
                 images.append(UIImageView(image: image))
             }
         }
-        
-        print(images.count)
         return images
+    }
+    
+    var withoutBraces: String {
+        return self.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "")
     }
 }

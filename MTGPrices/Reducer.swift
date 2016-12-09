@@ -21,9 +21,8 @@ func getInitialState() -> State {
     
     do {
         decks = try appDelegate.persistentContainer.viewContext.fetch(request)
-        print("retrieved decks from core data. count: \(decks.count)")
     } catch {
-        print("Fetch failed")
+        print("core data decks fetch failed")
     }
     
     return State(decks: decks, cardResults: nil, parameters: nil, shouldSearch: false, isLoading: false, remainingRequests: nil)

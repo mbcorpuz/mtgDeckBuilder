@@ -91,9 +91,9 @@ class CardDetailViewController: UIViewController, StoreSubscriber {
         imageStringUrl = shouldUseResult ? cardResult!.imageUrl : card!.imageUrl
         
         cardNameLabel.text = cardName
-        costLabel.text = "Cost: \(cost ?? "None")"
+        costLabel.text = "Cost: \(cost?.withoutBraces ?? "None")"
         typeLabel.text = "Types: \(type)"
-        textLabel.text = text
+        textLabel.text = text?.withoutBraces
         
     }
 
