@@ -25,7 +25,7 @@ func getInitialState() -> State {
         print("core data decks fetch failed")
     }
     
-    return State(decks: decks, cardResults: nil, parameters: nil, shouldSearch: false, isLoading: false, remainingRequests: nil)
+    return State(decks: decks, cardResults: nil, parameters: nil, shouldSearch: false, isLoading: false, remainingRequests: nil, additionalCardResults: nil, isDownloadingImages: false)
 }
 
 struct StateReducer: Reducer {
@@ -95,12 +95,37 @@ struct StateReducer: Reducer {
             request.predicate = NSPredicate(format: "deck.id == %@ AND id == %@", action.deck.id, action.card.id)
             if let existingCards = try? appDelegate.persistentContainer.viewContext.fetch(request) {
                 if !existingCards.isEmpty {
-                    // Card exists in this deck, just update its amount.
+                    // Card exists, just update its amount.
                     let card = existingCards[0]
                     card.amount += 1
                 } else {
-                    // Add new card to deck.
+                    // Create new card.
                     let card = Card(context: appDelegate.persistentContainer.viewContext)
+                    if let imageUrl = action.card.imageUrl {
+                        // Download image.
+                        print("added card has an image, downloading image data")
+                        card.isDownloadingImage = true
+                        state.isDownloadingImages = true
+                        let url = URL(string: imageUrl)!
+                        DispatchQueue.global(qos: .userInteractive).async {
+                            if let data = try? Data(contentsOf: url) {
+                                DispatchQueue.main.async {
+                                    card.imageData = data as NSData
+                                    print("image data done downloading, stored")
+                                    card.isDownloadingImage = false
+                                    store.dispatch(ImagesDownloadComplete())
+                                }
+                            } else {
+                                DispatchQueue.main.async {
+                                    card.isDownloadingImage = false
+                                    store.dispatch(ImagesDownloadComplete())
+                                }
+                            }
+                        }
+                    } else {
+                        print("added card has no image")
+                        card.isDownloadingImage = false
+                    }
                     card.cmc = action.card.cmc
                     card.id = action.card.id
                     card.imageUrl = action.card.imageUrl
@@ -113,6 +138,7 @@ struct StateReducer: Reducer {
                     card.type = action.card.type
                     card.text = action.card.text
                     card.colors = action.card.colors?.joined(separator: ", ") ?? "Colorless"
+                    card.names = action.card.names?.joined(separator: "|")
                     card.deck = action.deck
                     card.amount = 1
                 }
@@ -133,9 +159,18 @@ struct StateReducer: Reducer {
             state.isLoading = action.isLoading
             state.remainingRequests = action.remainingRequests
             
+        case let action as SearchForAdditionalCards:
+            state.additionalCardResults = action.results
+            state.isLoading = action.isLoading
+            state.remainingRequests = action.remainingRequests
+            
         case let action as SetNewParameters:
             state.parameters = action.parameters
             state.shouldSearch = true
+            
+        case is ImagesDownloadComplete:
+            print("images download complete")
+            state.isDownloadingImages = false
             
         default:
             break

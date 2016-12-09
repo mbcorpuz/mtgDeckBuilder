@@ -33,4 +33,9 @@ extension String {
     var withoutBraces: String {
         return self.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "")
     }
+    
+    func flippedNames() -> [String]? {
+        let splitString = self.components(separatedBy: "|")
+        return splitString.count > 1 ? splitString : nil
+    }
 }

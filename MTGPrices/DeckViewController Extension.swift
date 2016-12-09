@@ -56,7 +56,20 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
             cell.amountLabel.text = "\(creature.amount)"
             cell.title.text = creature.name
             cell.subtitle.text = creature.type
-            cell.downloadImage(from: creature.imageUrl)
+            if !creature.isDownloadingImage && creature.imageUrl != nil {
+                cell.cardImageView.isHidden = false
+                cell.imageLabel.isHidden = true
+                cell.cardImageView.image = UIImage(data: creature.imageData! as Data)
+                cell.configureFrame()
+            } else if creature.isDownloadingImage {
+                cell.imageLabel.isHidden = false
+                cell.imageLabel.text = "Loading Image"
+                cell.cardImageView.isHidden = true
+            } else {
+                cell.imageLabel.isHidden = false
+                cell.imageLabel.text = "No Image"
+                cell.cardImageView.isHidden = true
+            }
             cell.configureCost(from: creature.manaCost!.createManaCostImages())
             return cell
         case 2:
@@ -66,7 +79,20 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
             cell.amountLabel.text = "\(spell.amount)"
             cell.title.text = spell.name
             cell.subtitle.text = spell.type
-            cell.downloadImage(from: spell.imageUrl)
+            if !spell.isDownloadingImage && spell.imageUrl != nil {
+                cell.cardImageView.isHidden = false
+                cell.imageLabel.isHidden = true
+                cell.cardImageView.image = UIImage(data: spell.imageData! as Data)
+                cell.configureFrame()
+            } else if spell.isDownloadingImage {
+                cell.imageLabel.isHidden = false
+                cell.imageLabel.text = "Loading Image"
+                cell.cardImageView.isHidden = true
+            } else {
+                cell.imageLabel.isHidden = false
+                cell.imageLabel.text = "No Image"
+                cell.cardImageView.isHidden = true
+            }
             cell.configureCost(from: spell.manaCost?.createManaCostImages())
             return cell
         default:
@@ -76,7 +102,20 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
             cell.amountLabel.text = "\(land.amount)"
             cell.title.text = land.name
             cell.subtitle.text = land.type
-            cell.downloadImage(from: land.imageUrl)
+            if !land.isDownloadingImage && land.imageUrl != nil {
+                cell.cardImageView.isHidden = false
+                cell.imageLabel.isHidden = true
+                cell.cardImageView.image = UIImage(data: land.imageData! as Data)
+                cell.configureFrame()
+            } else if land.isDownloadingImage {
+                cell.imageLabel.isHidden = false
+                cell.imageLabel.text = "Loading Image"
+                cell.cardImageView.isHidden = true
+            } else {
+                cell.imageLabel.isHidden = false
+                cell.imageLabel.text = "No Image"
+                cell.cardImageView.isHidden = true
+            }
             return cell
         }
     }
@@ -105,6 +144,8 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let card = getCardAtIndexPath(indexPath)
+//            cards.remove(at: cards.index(of: card)!)
+//            tableView.reloadData()
             store.dispatch(RemoveCardFromDeck(card: card))
         }
     }

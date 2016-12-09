@@ -15,35 +15,12 @@ class CardTableViewCell: UITableViewCell {
     @IBOutlet weak var subtitle: UILabel!
     @IBOutlet weak var amountLabel: UILabel!
     @IBOutlet weak var costStackView: UIStackView!
-    private var imageConfigured = false
+    var originalContentsRect: CGRect!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        imageLabel.text = "Loading image..."
-    }
-    
-    func downloadImage(from urlOptionalString: String?) {
-        if let urlString = urlOptionalString {
-            let url = URL(string: urlString)!
-            DispatchQueue.global(qos: .userInteractive).async { [unowned self] in
-                if let data = try? Data(contentsOf: url) {
-                    DispatchQueue.main.async {
-                        self.cardImageView.image = UIImage(data: data)
-                        self.imageLabel.isHidden = true
-                        self.configureFrame()
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        self.cardImageView.isHidden = true
-                        self.imageLabel.text = "Loading failed"
-                    }
-                }
-            }
-        } else {
-            cardImageView.isHidden = true
-            imageLabel.text = "No image"
-        }
+        originalContentsRect = cardImageView.layer.contentsRect
     }
     
     func configureCost(from imageViews: [UIImageView]?) {
@@ -62,10 +39,8 @@ class CardTableViewCell: UITableViewCell {
         }
     }
     
-    private func configureFrame() {
-        guard !imageConfigured else { return }
-        
-        imageConfigured = true
+    func configureFrame() {
+        cardImageView.layer.contentsRect = originalContentsRect
         cardImageView.clipsToBounds = true
         cardImageView.contentMode = .scaleAspectFill
         cardImageView.layer.cornerRadius = cardImageView.frame.size.height / 5

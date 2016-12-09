@@ -59,3 +59,13 @@ struct SearchForCards: Action {
     let isLoading: Bool
     let remainingRequests: Int?
 }
+
+struct SearchForAdditionalCards: Action {
+    let results: Result<[CardResult]>?
+    let isLoading: Bool
+    let remainingRequests: Int?
+}
+
+struct ImagesDownloadComplete: Action {
+    
+}

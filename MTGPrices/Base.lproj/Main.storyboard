@@ -604,7 +604,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Jan-hz-wUE"/>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f7l-U7-Y9q">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Image Unavailable" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f7l-U7-Y9q">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="2wM-9N-D93"/>
                                 </constraints>
@@ -633,6 +633,12 @@
                                     <action selector="removeButtonPressed:" destination="tiZ-FC-y0c" eventType="touchUpInside" id="Mc1-IE-8Nx"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zGF-nQ-1vt">
+                                <state key="normal" title="Flip"/>
+                                <connections>
+                                    <action selector="flipButtonPressed:" destination="tiZ-FC-y0c" eventType="touchUpInside" id="lJI-LO-lIP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -646,13 +652,15 @@
                             <constraint firstItem="Jan-hz-wUE" firstAttribute="centerY" secondItem="aVr-0i-NHp" secondAttribute="centerY" id="GVJ-Qh-VYH"/>
                             <constraint firstItem="Qve-rp-alL" firstAttribute="height" secondItem="Uza-3i-ydu" secondAttribute="height" id="LA1-Ph-obd"/>
                             <constraint firstAttribute="leadingMargin" secondItem="aVr-0i-NHp" secondAttribute="leading" id="LMe-pn-m1j"/>
+                            <constraint firstItem="zGF-nQ-1vt" firstAttribute="centerX" secondItem="aVr-0i-NHp" secondAttribute="centerX" id="Lta-cV-D1W"/>
+                            <constraint firstItem="Uza-3i-ydu" firstAttribute="top" secondItem="zGF-nQ-1vt" secondAttribute="bottom" constant="8" symbolic="YES" id="PjF-6l-ht5"/>
                             <constraint firstItem="Qve-rp-alL" firstAttribute="trailing" secondItem="aVr-0i-NHp" secondAttribute="trailing" id="R9Y-lj-9qS"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Nsp-vi-R8R" secondAttribute="trailing" id="S9n-Qv-ZRZ"/>
-                            <constraint firstItem="Uza-3i-ydu" firstAttribute="top" secondItem="aVr-0i-NHp" secondAttribute="bottom" constant="8" symbolic="YES" id="TUB-dv-NpU"/>
                             <constraint firstItem="1tx-bB-lUn" firstAttribute="top" secondItem="zo0-9S-n2X" secondAttribute="bottom" constant="8" symbolic="YES" id="U6V-2I-CPp"/>
                             <constraint firstItem="1tx-bB-lUn" firstAttribute="centerX" secondItem="zo0-9S-n2X" secondAttribute="centerX" id="cR5-hE-KbH"/>
                             <constraint firstItem="YzP-o2-gcq" firstAttribute="leading" secondItem="aVr-0i-NHp" secondAttribute="trailing" constant="8" id="ciD-8g-BHk"/>
                             <constraint firstItem="Qve-rp-alL" firstAttribute="trailing" secondItem="HB5-LZ-ymf" secondAttribute="trailing" id="d8O-nV-009"/>
+                            <constraint firstItem="zGF-nQ-1vt" firstAttribute="top" secondItem="aVr-0i-NHp" secondAttribute="bottom" constant="8" id="dzm-mQ-0WN"/>
                             <constraint firstItem="f7l-U7-Y9q" firstAttribute="centerX" secondItem="aVr-0i-NHp" secondAttribute="centerX" id="fdN-ZY-2c3"/>
                             <constraint firstItem="f7l-U7-Y9q" firstAttribute="width" secondItem="aVr-0i-NHp" secondAttribute="width" id="iCp-Qh-JBe"/>
                             <constraint firstItem="zo0-9S-n2X" firstAttribute="width" secondItem="Nsp-vi-R8R" secondAttribute="width" id="n93-Zl-4sI"/>
@@ -672,6 +680,7 @@
                         <outlet property="cardNameLabel" destination="Nsp-vi-R8R" id="Pfr-IM-wMt"/>
                         <outlet property="costLabel" destination="zo0-9S-n2X" id="8OJ-kj-yZf"/>
                         <outlet property="deckCountLabel" destination="Qve-rp-alL" id="VJv-Fw-qho"/>
+                        <outlet property="flipButton" destination="zGF-nQ-1vt" id="BdP-lq-Gfk"/>
                         <outlet property="imageUnavailableLabel" destination="f7l-U7-Y9q" id="xOt-hg-Eh5"/>
                         <outlet property="imageView" destination="aVr-0i-NHp" id="0Uy-UX-FH9"/>
                         <outlet property="spinner" destination="Jan-hz-wUE" id="cyv-fY-kwa"/>

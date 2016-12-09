@@ -98,6 +98,12 @@ class DeckViewController: UIViewController, StoreSubscriber {
     
     func newState(state: State) {
         fetchCards()
+        if state.isDownloadingImages {
+            print("new state received, state is still downloading images")
+        } else {
+            print("new state received, state is done downloading images")
+            tableView.reloadData()
+        }
     }
     
 }
