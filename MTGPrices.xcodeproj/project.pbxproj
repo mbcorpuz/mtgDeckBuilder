@@ -329,7 +329,7 @@
 				TargetAttributes = {
 					CB0F99901DECE5F70085C721 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = BGXZUJFS4J;
+						DevelopmentTeam = YW6AF3KC37;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -580,7 +580,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = BGXZUJFS4J;
+				DEVELOPMENT_TEAM = YW6AF3KC37;
 				INFOPLIST_FILE = MTGPrices/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = sentiinex.MTGPrices;
@@ -595,7 +595,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = BGXZUJFS4J;
+				DEVELOPMENT_TEAM = YW6AF3KC37;
 				INFOPLIST_FILE = MTGPrices/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = sentiinex.MTGPrices;
