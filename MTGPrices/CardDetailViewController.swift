@@ -41,9 +41,18 @@ class CardDetailViewController: UIViewController, StoreSubscriber {
     @IBOutlet weak var textLabel: UILabel!
     @IBOutlet weak var deckCountLabel: UILabel!
     @IBOutlet weak var flipButton: UIButton!
+    @IBOutlet weak var sideboardButton: UIButton!
     
     
     // MARK: - IBActions
+    
+    @IBAction func addToSideboardButtonPressed(_ sender: UIButton) {
+        guard !sender.isHidden else { return }
+        
+        if shouldUseResult {
+            store.dispatch(AddCardResultToSideboard(deck: deck, card: cardResult!))
+        }
+    }
     
     @IBAction func flipButtonPressed(_ sender: UIButton) {
         guard !sender.isHidden else { return }
@@ -77,6 +86,10 @@ class CardDetailViewController: UIViewController, StoreSubscriber {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if !shouldUseResult {
+            sideboardButton.isHidden = true
+        }
         
         // Fetch/display main image.
         spinner.hidesWhenStopped = true

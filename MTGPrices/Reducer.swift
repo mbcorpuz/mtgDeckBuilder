@@ -92,7 +92,7 @@ struct StateReducer: Reducer {
             
         case let action as AddCardResultToDeck:
             let request = Card.createFetchRequest()
-            request.predicate = NSPredicate(format: "deck.id == %@ AND id == %@", action.deck.id, action.card.id)
+            request.predicate = NSPredicate(format: "deck.id == %@ AND id == %@ AND isSideboard == false", action.deck.id, action.card.id)
             if let existingCards = try? appDelegate.persistentContainer.viewContext.fetch(request) {
                 if !existingCards.isEmpty {
                     // Card exists, just update its amount.
@@ -137,12 +137,12 @@ struct StateReducer: Reducer {
                     card.colors = action.card.colors?.joined(separator: ", ") ?? "Colorless"
                     card.names = action.card.names?.joined(separator: "|")
                     card.deck = action.deck
+                    card.isSideboard = false
                     card.amount = 1
                 }
             } else {
                 print("core data error fetching")
             }
-            
             appDelegate.saveContext()
             
         case let action as RemoveCardFromDeck:
@@ -167,6 +167,62 @@ struct StateReducer: Reducer {
             
         case is ImagesDownloadComplete:
             state.isDownloadingImages = false
+            
+        case let action as MoveCardToSideboard:
+            action.card.isSideboard = true
+            
+        case let action as AddCardResultToSideboard:
+            let request = Card.createFetchRequest()
+            request.predicate = NSPredicate(format: "deck.id == %@ AND id == %@ AND isSideboard == true", action.deck.id, action.card.id)
+            if let existingCards = try? appDelegate.persistentContainer.viewContext.fetch(request) {
+                if !existingCards.isEmpty {
+                    // Card exists, just update its amount.
+                    let card = existingCards[0]
+                    card.amount += 1
+                } else {
+                    // Create new card.
+                    let card = Card(context: appDelegate.persistentContainer.viewContext)
+                    if let imageUrl = action.card.imageUrl {
+                        // Download image.
+                        card.isDownloadingImage = true
+                        state.isDownloadingImages = true
+                        let url = URL(string: imageUrl)!
+                        DispatchQueue.global(qos: .userInteractive).async {
+                            if let data = try? Data(contentsOf: url) {
+                                DispatchQueue.main.async {
+                                    card.imageData = data as NSData
+                                    card.isDownloadingImage = false
+                                    store.dispatch(ImagesDownloadComplete())
+                                }
+                            } else {
+                                DispatchQueue.main.async {
+                                    card.isDownloadingImage = false
+                                    store.dispatch(ImagesDownloadComplete())
+                                }
+                            }
+                        }
+                    } else {
+                        card.isDownloadingImage = false
+                    }
+                    card.cmc = action.card.cmc
+                    card.id = action.card.id
+                    card.imageUrl = action.card.imageUrl
+                    card.manaCost = action.card.manaCost
+                    card.name = action.card.name
+                    card.power = action.card.power
+                    card.rarity = action.card.rarity
+                    card.set = action.card.set
+                    card.toughness = action.card.toughness
+                    card.type = action.card.type
+                    card.text = action.card.text
+                    card.colors = action.card.colors?.joined(separator: ", ") ?? "Colorless"
+                    card.names = action.card.names?.joined(separator: "|")
+                    card.deck = action.deck
+                    card.isSideboard = true
+                    card.amount = 1
+                }
+            }
+
             
         default:
             break

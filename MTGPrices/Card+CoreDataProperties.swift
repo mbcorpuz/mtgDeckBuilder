@@ -31,6 +31,7 @@ extension Card {
     @NSManaged public var names: String?
     @NSManaged public var imageData: NSData?
     @NSManaged public var isDownloadingImage: Bool
+    @NSManaged public var isSideboard: Bool
     @NSManaged public var deck: Deck
 
 }

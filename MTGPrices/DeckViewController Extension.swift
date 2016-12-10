@@ -36,6 +36,14 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
         return count
     }
     
+    var sideboardCount: Int {
+        var count = 0
+        for sideboardCard in sideboard {
+            count += Int(sideboardCard.amount)
+        }
+        return count
+    }
+    
     
     // MARK: - UITableViewDelegate, UITableViewDataSource Methods
     
@@ -44,12 +52,12 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
         case 0: return "\(creaturesCount) Creatures"
         case 1: return "\(spellsCount) Noncreature Spells"
         case 2: return "\(landsCount) Lands"
-        default: return nil
+        default: return "Sideboard: \(sideboardCount) Cards"
         }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -60,9 +68,12 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             // Spell
             return spells.count
-        default:
+        case 2:
             // Land
             return lands.count
+        default:
+            // Sideboard
+            return sideboard.count
         }
     }
     
@@ -114,14 +125,16 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
             }
             cell.configureCost(from: spell.manaCost?.createManaCostImages())
             return cell
-        default:
+        case 2:
             // Land
+            print("loading land cell")
             let cell = tableView.dequeueReusableCell(withIdentifier: Cell.landCell, for: indexPath) as! CardTableViewCell
             let land = lands[indexPath.row]
             cell.amountLabel.text = "\(land.amount)"
             cell.title.text = land.name
             cell.subtitle.text = land.type
             if !land.isDownloadingImage && land.imageUrl != nil {
+                print("setting land image")
                 cell.cardImageView.isHidden = false
                 cell.imageLabel.isHidden = true
                 cell.cardImageView.image = UIImage(data: land.imageData! as Data)
@@ -136,6 +149,29 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.cardImageView.isHidden = true
             }
             return cell
+        default:
+            // Sideboard
+            let cell = tableView.dequeueReusableCell(withIdentifier: Cell.sideboardCell, for: indexPath) as! CardTableViewCell
+            let sideboardCard = sideboard[indexPath.row]
+            cell.amountLabel.text = "\(sideboardCard.amount)"
+            cell.title.text = sideboardCard.name
+            cell.subtitle.text = sideboardCard.type
+            if !sideboardCard.isDownloadingImage && sideboardCard.imageUrl != nil {
+                cell.cardImageView.isHidden = false
+                cell.imageLabel.isHidden = true
+                cell.cardImageView.image = UIImage(data: sideboardCard.imageData! as Data)
+                cell.configureFrame()
+            } else if sideboardCard.isDownloadingImage {
+                cell.imageLabel.isHidden = false
+                cell.imageLabel.text = "Loading Image"
+                cell.cardImageView.isHidden = true
+            } else {
+                cell.imageLabel.isHidden = false
+                cell.imageLabel.text = "No Image"
+                cell.cardImageView.isHidden = true
+            }
+            cell.configureCost(from: sideboardCard.manaCost?.createManaCostImages())
+            return cell
         }
     }
     
@@ -145,7 +181,8 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
             switch indexPath.section {
             case 0: vc.card = creatures[indexPath.row]
             case 1: vc.card = spells[indexPath.row]
-            default: vc.card = lands[indexPath.row]
+            case 2: vc.card = lands[indexPath.row]
+            default: vc.card = sideboard[indexPath.row]
             }
             vc.shouldUseResult = false
             navigationController?.pushViewController(vc, animated: true)
@@ -171,13 +208,15 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
         static let creatureCell = "Creature"
         static let spellCell = "Spell"
         static let landCell = "Land"
+        static let sideboardCell = "Sideboard"
     }
     
     func getCardAtIndexPath(_ indexPath: IndexPath) -> Card {
         switch indexPath.section {
         case 0: return creatures[indexPath.row]
         case 1: return spells[indexPath.row]
-        default: return lands[indexPath.row]
+        case 2: return lands[indexPath.row]
+        default: return sideboard[indexPath.row]
         }
     }
     

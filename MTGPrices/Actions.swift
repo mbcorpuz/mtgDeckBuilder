@@ -66,6 +66,13 @@ struct SearchForAdditionalCards: Action {
     let remainingRequests: Int?
 }
 
-struct ImagesDownloadComplete: Action {
-    
+struct ImagesDownloadComplete: Action { }
+
+struct MoveCardToSideboard: Action {
+    let card: Card
+}
+
+struct AddCardResultToSideboard: Action {
+    let deck: Deck
+    let card: CardResult
 }
