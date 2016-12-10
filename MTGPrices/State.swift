@@ -17,4 +17,6 @@ struct State: StateType {
     var shouldSearch: Bool
     var isLoading: Bool
     var remainingRequests: Int?
+    var additionalCardResults: Result<[CardResult]>?
+    var isDownloadingImages: Bool
 }

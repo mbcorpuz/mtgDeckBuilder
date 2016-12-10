@@ -12,6 +12,7 @@ import ObjectMapper
 struct CardResult: Mappable {
     
     var name: String!
+    var names: [String]?
     var manaCost: String?
     var cmc: String = "None"
     var rarity: String!
@@ -51,6 +52,7 @@ struct CardResult: Mappable {
         )
         
         name        <- map["name"]
+        names       <- map["names"]
         manaCost    <- map["manaCost"]
         cmc         <- (map["cmc"], intToString)
         rarity      <- map["rarity"]

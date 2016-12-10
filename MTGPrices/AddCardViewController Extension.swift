@@ -35,11 +35,12 @@ extension AddCardViewController: UITableViewDelegate, UITableViewDataSource, UIS
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Cell.resultCell, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: Cell.resultCell, for: indexPath) as! CardResultTableViewCell
         let result = cardResults[indexPath.row]
         
-        cell.textLabel?.text = result.name
-        cell.detailTextLabel?.text = "Type: \(result.types.joined(separator: " ")), Cost: \(result.manaCost ?? "none"), Set: \(result.set!)"
+        cell.nameLabel.text = result.name
+        cell.subtitleLabel.text = "\(result.type!), Set: \(result.set!)"
+        cell.configureCost(from: result.manaCost?.createManaCostImages())
         
         return cell
     }

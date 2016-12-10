@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension String {
     var cmcToInt: Int {
@@ -15,5 +16,26 @@ extension String {
         } else {
             return Int(self)!
         }
+    }
+    
+    func createManaCostImages() -> [UIImageView] {
+        var images = [UIImageView]()
+        var costStrings = self.components(separatedBy: "{")
+        for (index, string) in costStrings.enumerated() {
+            costStrings[index] = string.replacingOccurrences(of: "}", with: "")
+            if let image = UIImage(named: costStrings[index]) {
+                images.append(UIImageView(image: image))
+            }
+        }
+        return images
+    }
+    
+    var withoutBraces: String {
+        return self.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "")
+    }
+    
+    func flippedNames() -> [String]? {
+        let splitString = self.components(separatedBy: "|")
+        return splitString.count > 1 ? splitString : nil
     }
 }

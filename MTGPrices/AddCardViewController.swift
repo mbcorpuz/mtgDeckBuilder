@@ -35,12 +35,13 @@ class AddCardViewController: UIViewController, StoreSubscriber {
         
         searchBar.scopeButtonTitles = ["Alphabetical", "Color", "CMC"]
         searchBar.showsScopeBar = true
-        searchBar.selectedScopeButtonIndex = 0
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         store.subscribe(self)
+        searchBar.selectedScopeButtonIndex = 0
     }
     
     override func viewWillDisappear(_ animated: Bool) {

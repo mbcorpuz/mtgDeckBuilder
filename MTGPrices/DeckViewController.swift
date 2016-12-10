@@ -5,12 +5,11 @@
 //  Created by Gabriele Pregadio on 11/29/16.
 //  Copyright © 2016 Gabriele Pregadio. All rights reserved.
 //
-
 import UIKit
 import ReSwift
 
 class DeckViewController: UIViewController, StoreSubscriber {
-
+    
     // MARK: - IBOutlets
     
     @IBOutlet weak var tableView: UITableView!
@@ -23,7 +22,7 @@ class DeckViewController: UIViewController, StoreSubscriber {
     var cards = [Card]()
     
     var creatures: [Card] {
-        return cards.filter { ($0.type.contains("Creature") || $0.type.contains("Summon")) && !$0.type.contains("Land") }.sorted {
+        return cards.filter { !$0.isSideboard && ($0.type.contains("Creature") || $0.type.contains("Summon")) && !$0.type.contains("Land") }.sorted {
             if $0.0.cmc.cmcToInt != $0.1.cmc.cmcToInt {
                 return $0.0.cmc.cmcToInt < $0.1.cmc.cmcToInt
             } else {
@@ -33,7 +32,7 @@ class DeckViewController: UIViewController, StoreSubscriber {
     }
     
     var spells: [Card] {
-        return cards.filter { !$0.type.contains("Creature") && !$0.type.contains("Land") }.sorted {
+        return cards.filter { !$0.isSideboard && !$0.type.contains("Creature") && !$0.type.contains("Land") }.sorted {
             if $0.0.cmc.cmcToInt != $0.1.cmc.cmcToInt {
                 return $0.0.cmc.cmcToInt < $0.1.cmc.cmcToInt
             } else {
@@ -43,18 +42,27 @@ class DeckViewController: UIViewController, StoreSubscriber {
     }
     
     var lands: [Card] {
-        return cards.filter { $0.type.contains("Land") }.sorted { $0.0.name < $0.1.name }
+        return cards.filter { !$0.isSideboard && $0.type.contains("Land") }.sorted { $0.0.name < $0.1.name }
+    }
+    
+    var sideboard: [Card] {
+        return cards.filter { $0.isSideboard }.sorted {
+            if $0.0.cmc.cmcToInt != $0.1.cmc.cmcToInt {
+                return $0.0.cmc.cmcToInt < $0.1.cmc.cmcToInt
+            } else {
+                return $0.0.name < $0.1.name
+            }
+        }
     }
     
     // MARK: - View Lifecycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("view didload")
         
         title = deck.name
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Deck", style: .plain, target: nil, action: nil)
-        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(searchForCards))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,6 +88,13 @@ class DeckViewController: UIViewController, StoreSubscriber {
     
     // MARK: - Methods
     
+    func searchForCards() {
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "AddCardViewController") as? AddCardViewController {
+            vc.deck = deck
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
     func fetchCards() {
         let cardRequest = Card.createFetchRequest()
         cardRequest.predicate = NSPredicate(format: "deck.id == %@", deck.id)
@@ -96,6 +111,10 @@ class DeckViewController: UIViewController, StoreSubscriber {
     
     func newState(state: State) {
         fetchCards()
+        if state.isDownloadingImages {
+        } else {
+            tableView.reloadData()
+        }
     }
     
 }

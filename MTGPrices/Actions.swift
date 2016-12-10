@@ -60,3 +60,19 @@ struct SearchForCards: Action {
     let remainingRequests: Int?
 }
 
+struct SearchForAdditionalCards: Action {
+    let results: Result<[CardResult]>?
+    let isLoading: Bool
+    let remainingRequests: Int?
+}
+
+struct ImagesDownloadComplete: Action { }
+
+struct MoveCardToSideboard: Action {
+    let card: Card
+}
+
+struct AddCardResultToSideboard: Action {
+    let deck: Deck
+    let card: CardResult
+}

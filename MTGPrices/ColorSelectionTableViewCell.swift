@@ -63,7 +63,7 @@ class ColorSelectionTableViewCell: UITableViewCell {
         static let borderMargin: CGFloat = 15
         
         struct Button {
-            static let color = UIColor(red: 0, green: 0, blue: 1, alpha: 0.7)
+            static let color = UIColor.black
             static let textColor = UIColor.black
             static let fontSize: CGFloat = 14
             static let size: CGFloat = 24
