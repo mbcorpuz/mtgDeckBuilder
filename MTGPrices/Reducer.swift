@@ -103,7 +103,6 @@ struct StateReducer: Reducer {
                     let card = Card(context: appDelegate.persistentContainer.viewContext)
                     if let imageUrl = action.card.imageUrl {
                         // Download image.
-                        print("added card has an image, downloading image data")
                         card.isDownloadingImage = true
                         state.isDownloadingImages = true
                         let url = URL(string: imageUrl)!
@@ -111,7 +110,6 @@ struct StateReducer: Reducer {
                             if let data = try? Data(contentsOf: url) {
                                 DispatchQueue.main.async {
                                     card.imageData = data as NSData
-                                    print("image data done downloading, stored")
                                     card.isDownloadingImage = false
                                     store.dispatch(ImagesDownloadComplete())
                                 }
@@ -123,7 +121,6 @@ struct StateReducer: Reducer {
                             }
                         }
                     } else {
-                        print("added card has no image")
                         card.isDownloadingImage = false
                     }
                     card.cmc = action.card.cmc
@@ -169,7 +166,6 @@ struct StateReducer: Reducer {
             state.shouldSearch = true
             
         case is ImagesDownloadComplete:
-            print("images download complete")
             state.isDownloadingImages = false
             
         default:

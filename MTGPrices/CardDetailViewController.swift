@@ -78,13 +78,27 @@ class CardDetailViewController: UIViewController, StoreSubscriber {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Fetch main image.
+        // Fetch/display main image.
         spinner.hidesWhenStopped = true
         imageUnavailableLabel.isHidden = true
         spinner.startAnimating()
-        if let imageUrl = shouldUseResult ? cardResult!.imageUrl : card!.imageUrl {
+        if let imageUrl = cardResult?.imageUrl {
+            // Download card result image.
             fetchMainImage(from: imageUrl)
+        } else if !shouldUseResult && card!.imageData == nil {
+            // No image.
+            spinner.stopAnimating()
+            imageUnavailableLabel.isHidden = false
+            imageView.isHidden = true
+        } else if !shouldUseResult && !card!.isDownloadingImage {
+            // Display existing card image.
+            mainImage = UIImage(data: card!.imageData! as Data)
+            imageView.image = mainImage
+            spinner.stopAnimating()
+        } else if !shouldUseResult && card!.isDownloadingImage {
+            // Card image is being downloaded - keep animating spinner.
         } else {
+            // No image.
             spinner.stopAnimating()
             imageUnavailableLabel.isHidden = false
             imageView.isHidden = true
@@ -125,6 +139,14 @@ class CardDetailViewController: UIViewController, StoreSubscriber {
     }
     
     // MARK: - Methods
+    
+    private func mainImageDownloadComplete() {
+        if !shouldUseResult && spinner.isAnimating {
+            mainImage = UIImage(data: card!.imageData! as Data)
+            imageView.image = mainImage
+            spinner.stopAnimating()
+        }
+    }
     
     private func displayFlipSideInfo() {
         cardNameLabel.text = flippedCard!.name
@@ -219,6 +241,10 @@ class CardDetailViewController: UIViewController, StoreSubscriber {
     
     func newState(state: State) {
         getDeckCount()
+        
+        if !state.isDownloadingImages {
+            mainImageDownloadComplete()
+        }
         
         if waitingForFlippedResult && !state.isLoading {
             waitingForFlippedResult = false

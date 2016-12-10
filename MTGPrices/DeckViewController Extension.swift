@@ -10,30 +10,54 @@ import UIKit
 
 extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
     
+    // MARK: - Computed Properties
+    
+    var creaturesCount: Int {
+        var count = 0
+        for creature in creatures {
+            count += Int(creature.amount)
+        }
+        return count
+    }
+    
+    var spellsCount: Int {
+        var count = 0
+        for spell in spells {
+            count += Int(spell.amount)
+        }
+        return count
+    }
+    
+    var landsCount: Int {
+        var count = 0
+        for land in lands {
+            count += Int(land.amount)
+        }
+        return count
+    }
+    
+    
     // MARK: - UITableViewDelegate, UITableViewDataSource Methods
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
-        case 1: return "Creatures"
-        case 2: return "Spells"
-        case 3: return "Lands"
+        case 0: return "\(creaturesCount) Creatures"
+        case 1: return "\(spellsCount) Noncreature Spells"
+        case 2: return "\(landsCount) Lands"
         default: return nil
         }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            // Add Card
-            return 1
-        case 1:
             // Creature
             return creatures.count
-        case 2:
+        case 1:
             // Spell
             return spells.count
         default:
@@ -45,11 +69,6 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            // Add Card
-            let cell = tableView.dequeueReusableCell(withIdentifier: Cell.addCard, for: indexPath)
-            cell.textLabel?.text = "Card Search"
-            return cell
-        case 1:
             // Creature
             let cell = tableView.dequeueReusableCell(withIdentifier: Cell.creatureCell, for: indexPath) as! CardTableViewCell
             let creature = creatures[indexPath.row]
@@ -72,7 +91,7 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
             }
             cell.configureCost(from: creature.manaCost!.createManaCostImages())
             return cell
-        case 2:
+        case 1:
             // Spell
             let cell = tableView.dequeueReusableCell(withIdentifier: Cell.spellCell, for: indexPath)  as! CardTableViewCell
             let spell = spells[indexPath.row]
@@ -121,31 +140,22 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 { // Add Card
-            if let vc = storyboard?.instantiateViewController(withIdentifier: "AddCardViewController") as? AddCardViewController {
-                vc.deck = deck
-                navigationController?.pushViewController(vc, animated: true)
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "CardDetailViewController") as? CardDetailViewController {
+            vc.deck = deck
+            switch indexPath.section {
+            case 0: vc.card = creatures[indexPath.row]
+            case 1: vc.card = spells[indexPath.row]
+            default: vc.card = lands[indexPath.row]
             }
-        } else { // Display Card
-            if let vc = storyboard?.instantiateViewController(withIdentifier: "CardDetailViewController") as? CardDetailViewController {
-                vc.deck = deck
-                switch indexPath.section {
-                case 1: vc.card = creatures[indexPath.row]
-                case 2: vc.card = spells[indexPath.row]
-                default: vc.card = lands[indexPath.row]
-                }
-                vc.shouldUseResult = false
-                navigationController?.pushViewController(vc, animated: true)
-            }
+            vc.shouldUseResult = false
+            navigationController?.pushViewController(vc, animated: true)
         }
-        
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let card = getCardAtIndexPath(indexPath)
-//            cards.remove(at: cards.index(of: card)!)
-//            tableView.reloadData()
+            cards.remove(at: cards.index(of: card)!)
             store.dispatch(RemoveCardFromDeck(card: card))
         }
     }
@@ -161,13 +171,12 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
         static let creatureCell = "Creature"
         static let spellCell = "Spell"
         static let landCell = "Land"
-        static let addCard = "Add Card"
     }
     
     func getCardAtIndexPath(_ indexPath: IndexPath) -> Card {
         switch indexPath.section {
-        case 1: return creatures[indexPath.row]
-        case 2: return spells[indexPath.row]
+        case 0: return creatures[indexPath.row]
+        case 1: return spells[indexPath.row]
         default: return lands[indexPath.row]
         }
     }

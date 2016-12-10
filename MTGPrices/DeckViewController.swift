@@ -52,7 +52,7 @@ class DeckViewController: UIViewController, StoreSubscriber {
         
         title = deck.name
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Deck", style: .plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Land", style: .plain, target: self, action: #selector(addLandButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(searchForCards))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,8 +78,11 @@ class DeckViewController: UIViewController, StoreSubscriber {
     
     // MARK: - Methods
     
-    func addLandButtonTapped() {
-        
+    func searchForCards() {
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "AddCardViewController") as? AddCardViewController {
+            vc.deck = deck
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func fetchCards() {
@@ -99,9 +102,7 @@ class DeckViewController: UIViewController, StoreSubscriber {
     func newState(state: State) {
         fetchCards()
         if state.isDownloadingImages {
-            print("new state received, state is still downloading images")
         } else {
-            print("new state received, state is done downloading images")
             tableView.reloadData()
         }
     }
