@@ -10,6 +10,8 @@ import Foundation
 import ReSwift
 import Alamofire
 
+// MARK: - Deck Actions
+
 struct AddNewDeck: Action {
     let name: String?
     let format: String!
@@ -21,23 +23,17 @@ struct EditDeck: Action {
     let format: String?
 }
 
-struct IncrementCardAmount: Action {
-    let card: Card
-}
-
-struct DecrementCardAmount: Action {
-    let deck: Deck
-    let cardId: String
-}
-
-struct UpdateCardReference: Action {
-    let deck: Deck
-    let cardId: String
-}
-
 struct DeleteDeck: Action {
     let deck: Deck
     let index: Int
+}
+
+
+// MARK: - Card Actions
+
+struct AddSideboardCardToDeck: Action {
+    let deck: Deck
+    let sideboardCard: Card
 }
 
 struct AddCardResultToDeck: Action {
@@ -45,9 +41,46 @@ struct AddCardResultToDeck: Action {
     let card: CardResult
 }
 
+struct AddMainboardCardToSideboard: Action {
+    let deck: Deck
+    let mainboardCard: Card
+}
+
+struct AddCardResultToSideboard: Action {
+    let deck: Deck
+    let card: CardResult
+}
+
+struct IncrementMainboardCardAmount: Action {
+    let deck: Deck
+    let card: Card
+}
+
+struct IncrementSideboardCardAmount: Action {
+    let deck: Deck
+    let card: Card
+}
+
+struct DecrementMainboardCardAmount: Action {
+    let deck: Deck
+    let cardId: String
+}
+
+struct DecrementSideboardCardAmount: Action {
+    let deck: Deck
+    let cardId: String
+}
+
 struct RemoveCardFromDeck: Action {
     let card: Card
 }
+
+struct UpdateCardReference: Action {
+    let deck: Deck
+    let cardId: String
+}
+
+// MARK: - Search Actions
 
 struct SetNewParameters: Action {
     let parameters: [String: Any]
@@ -67,12 +100,3 @@ struct SearchForAdditionalCards: Action {
 }
 
 struct ImagesDownloadComplete: Action { }
-
-struct MoveCardToSideboard: Action {
-    let card: Card
-}
-
-struct AddCardResultToSideboard: Action {
-    let deck: Deck
-    let card: CardResult
-}

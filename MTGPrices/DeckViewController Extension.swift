@@ -49,10 +49,10 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
-        case 0: return "\(creaturesCount) Creatures"
-        case 1: return "\(spellsCount) Noncreature Spells"
-        case 2: return "\(landsCount) Lands"
-        default: return "Sideboard: \(sideboardCount) Cards"
+        case 0: return "Creatures (\(creaturesCount))"
+        case 1: return "Noncreature Spells (\(spellsCount))"
+        case 2: return "Lands (\(landsCount))"
+        default: return "Sideboard (\(sideboardCount))"
         }
     }
     
@@ -90,7 +90,6 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.cardImageView.isHidden = false
                 cell.imageLabel.isHidden = true
                 cell.cardImageView.image = UIImage(data: creature.imageData! as Data)
-                cell.configureFrame()
             } else if creature.isDownloadingImage {
                 cell.imageLabel.isHidden = false
                 cell.imageLabel.text = "Loading Image"
@@ -113,7 +112,6 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.cardImageView.isHidden = false
                 cell.imageLabel.isHidden = true
                 cell.cardImageView.image = UIImage(data: spell.imageData! as Data)
-                cell.configureFrame()
             } else if spell.isDownloadingImage {
                 cell.imageLabel.isHidden = false
                 cell.imageLabel.text = "Loading Image"
@@ -127,18 +125,15 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         case 2:
             // Land
-            print("loading land cell")
             let cell = tableView.dequeueReusableCell(withIdentifier: Cell.landCell, for: indexPath) as! CardTableViewCell
             let land = lands[indexPath.row]
             cell.amountLabel.text = "\(land.amount)"
             cell.title.text = land.name
             cell.subtitle.text = land.type
             if !land.isDownloadingImage && land.imageUrl != nil {
-                print("setting land image")
                 cell.cardImageView.isHidden = false
                 cell.imageLabel.isHidden = true
                 cell.cardImageView.image = UIImage(data: land.imageData! as Data)
-                cell.configureFrame()
             } else if land.isDownloadingImage {
                 cell.imageLabel.isHidden = false
                 cell.imageLabel.text = "Loading Image"
@@ -160,7 +155,6 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.cardImageView.isHidden = false
                 cell.imageLabel.isHidden = true
                 cell.cardImageView.image = UIImage(data: sideboardCard.imageData! as Data)
-                cell.configureFrame()
             } else if sideboardCard.isDownloadingImage {
                 cell.imageLabel.isHidden = false
                 cell.imageLabel.text = "Loading Image"
@@ -195,11 +189,6 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
             cards.remove(at: cards.index(of: card)!)
             store.dispatch(RemoveCardFromDeck(card: card))
         }
-    }
-    
-    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        let card = getCardAtIndexPath(indexPath)
-        store.dispatch(IncrementCardAmount(card: card))
     }
     
     // MARK: - Supporting Functionality

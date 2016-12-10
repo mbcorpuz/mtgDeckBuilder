@@ -103,13 +103,13 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Creature" id="Ym6-Yg-zUx" customClass="CardTableViewCell" customModule="MTGPrices" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ym6-Yg-zUx" id="sSt-5H-Xa7">
                                             <frame key="frameInset" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QDh-ao-OnA">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QDh-ao-OnA">
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="43" id="0qz-Nm-eMa"/>
                                                         <constraint firstAttribute="width" constant="73" id="Fxb-cF-Eh1"/>
@@ -175,13 +175,13 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Spell" id="htz-mp-53Y" customClass="CardTableViewCell" customModule="MTGPrices" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="htz-mp-53Y" id="bxJ-dp-FRl">
                                             <frame key="frameInset" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jF1-gd-Xj2">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jF1-gd-Xj2">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="73" id="G7S-rc-43O"/>
                                                         <constraint firstAttribute="height" constant="43" id="iyj-Yc-zuw"/>
@@ -247,13 +247,13 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Land" id="Rhz-MA-3OO" customClass="CardTableViewCell" customModule="MTGPrices" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="144" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="143.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rhz-MA-3OO" id="BGm-y5-ZII">
                                             <frame key="frameInset" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DKg-5Z-Kyg">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DKg-5Z-Kyg">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="73" id="2cD-8v-hhj"/>
                                                         <constraint firstAttribute="height" constant="43" id="bbM-hC-uD2"/>
@@ -319,13 +319,13 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Sideboard" id="DNM-vS-ydx" customClass="CardTableViewCell" customModule="MTGPrices" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="188" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="187.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DNM-vS-ydx" id="y5l-hy-uuA">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pu7-pE-zTE">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pu7-pE-zTE">
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="43" id="GKd-IN-Hef"/>
                                                         <constraint firstAttribute="width" constant="73" id="ymy-bj-Zyl"/>
@@ -688,15 +688,14 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uza-3i-ydu">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="18h-Qt-N1p"/>
-                                    <constraint firstAttribute="width" constant="38" id="MdG-6p-bTT"/>
                                 </constraints>
-                                <state key="normal" title="Add"/>
+                                <state key="normal" title="Deck +1"/>
                                 <connections>
                                     <action selector="addButtonPressed:" destination="tiZ-FC-y0c" eventType="touchUpInside" id="KPN-Et-zvo"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HB5-LZ-ymf">
-                                <state key="normal" title="Remove"/>
+                                <state key="normal" title="Deck -1"/>
                                 <connections>
                                     <action selector="removeButtonPressed:" destination="tiZ-FC-y0c" eventType="touchUpInside" id="Mc1-IE-8Nx"/>
                                 </connections>
@@ -708,7 +707,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LkX-LY-nsD">
-                                <state key="normal" title="Add to Sideboard"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="91" id="dRx-ul-6TU"/>
+                                </constraints>
+                                <state key="normal" title="Sideboard +1"/>
                                 <connections>
                                     <action selector="addToSideboardButtonPressed:" destination="tiZ-FC-y0c" eventType="touchUpInside" id="AVD-9Q-rQx"/>
                                 </connections>
@@ -718,13 +720,30 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sideboard Count: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UOe-A1-iY1">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qr5-0c-8t5">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="91" id="84s-5g-Qrs"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="88" id="Lmm-rH-fxp"/>
+                                </constraints>
+                                <state key="normal" title="Sideboard -1"/>
+                                <connections>
+                                    <action selector="removeFromSideboardButtonPressed:" destination="tiZ-FC-y0c" eventType="touchUpInside" id="74U-Vt-Rg0"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="UOe-A1-iY1" firstAttribute="centerX" secondItem="Qve-rp-alL" secondAttribute="centerX" id="0r6-x3-Kzz"/>
                             <constraint firstItem="LkX-LY-nsD" firstAttribute="top" secondItem="Uza-3i-ydu" secondAttribute="bottom" constant="8" symbolic="YES" id="1Kx-9e-X98"/>
                             <constraint firstItem="YzP-o2-gcq" firstAttribute="bottom" secondItem="aVr-0i-NHp" secondAttribute="bottom" id="5py-xe-VfH"/>
                             <constraint firstItem="HB5-LZ-ymf" firstAttribute="height" secondItem="Uza-3i-ydu" secondAttribute="height" id="6NN-i1-pqd"/>
                             <constraint firstAttribute="leadingMargin" secondItem="Uza-3i-ydu" secondAttribute="leading" id="7G8-dB-Y0c"/>
+                            <constraint firstItem="HB5-LZ-ymf" firstAttribute="leading" secondItem="Qr5-0c-8t5" secondAttribute="leading" id="81b-UL-1LO"/>
                             <constraint firstItem="YzP-o2-gcq" firstAttribute="centerX" secondItem="1tx-bB-lUn" secondAttribute="centerX" id="8rF-aI-DcY"/>
                             <constraint firstItem="Jan-hz-wUE" firstAttribute="centerX" secondItem="aVr-0i-NHp" secondAttribute="centerX" id="Bb9-In-LAQ"/>
                             <constraint firstItem="Qve-rp-alL" firstAttribute="leading" secondItem="Uza-3i-ydu" secondAttribute="leading" id="FIv-jf-SKW"/>
@@ -732,22 +751,25 @@
                             <constraint firstItem="Jan-hz-wUE" firstAttribute="centerY" secondItem="aVr-0i-NHp" secondAttribute="centerY" id="GVJ-Qh-VYH"/>
                             <constraint firstItem="Qve-rp-alL" firstAttribute="height" secondItem="Uza-3i-ydu" secondAttribute="height" id="LA1-Ph-obd"/>
                             <constraint firstAttribute="leadingMargin" secondItem="aVr-0i-NHp" secondAttribute="leading" id="LMe-pn-m1j"/>
+                            <constraint firstItem="UOe-A1-iY1" firstAttribute="top" secondItem="Qve-rp-alL" secondAttribute="bottom" constant="8" symbolic="YES" id="LqD-s9-bYQ"/>
                             <constraint firstItem="zGF-nQ-1vt" firstAttribute="centerX" secondItem="aVr-0i-NHp" secondAttribute="centerX" id="Lta-cV-D1W"/>
+                            <constraint firstItem="UOe-A1-iY1" firstAttribute="width" secondItem="Qve-rp-alL" secondAttribute="width" id="OFj-xh-Il4"/>
                             <constraint firstItem="Uza-3i-ydu" firstAttribute="top" secondItem="zGF-nQ-1vt" secondAttribute="bottom" constant="8" symbolic="YES" id="PjF-6l-ht5"/>
                             <constraint firstItem="Qve-rp-alL" firstAttribute="top" secondItem="LkX-LY-nsD" secondAttribute="bottom" constant="8" symbolic="YES" id="Qip-DB-nqa"/>
                             <constraint firstItem="Qve-rp-alL" firstAttribute="trailing" secondItem="aVr-0i-NHp" secondAttribute="trailing" id="R9Y-lj-9qS"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Nsp-vi-R8R" secondAttribute="trailing" id="S9n-Qv-ZRZ"/>
                             <constraint firstItem="1tx-bB-lUn" firstAttribute="top" secondItem="zo0-9S-n2X" secondAttribute="bottom" constant="8" symbolic="YES" id="U6V-2I-CPp"/>
-                            <constraint firstItem="LkX-LY-nsD" firstAttribute="centerX" secondItem="zGF-nQ-1vt" secondAttribute="centerX" id="c9O-iT-XJW"/>
                             <constraint firstItem="1tx-bB-lUn" firstAttribute="centerX" secondItem="zo0-9S-n2X" secondAttribute="centerX" id="cR5-hE-KbH"/>
                             <constraint firstItem="YzP-o2-gcq" firstAttribute="leading" secondItem="aVr-0i-NHp" secondAttribute="trailing" constant="8" id="ciD-8g-BHk"/>
-                            <constraint firstItem="Qve-rp-alL" firstAttribute="trailing" secondItem="HB5-LZ-ymf" secondAttribute="trailing" id="d8O-nV-009"/>
                             <constraint firstItem="zGF-nQ-1vt" firstAttribute="top" secondItem="aVr-0i-NHp" secondAttribute="bottom" constant="8" id="dzm-mQ-0WN"/>
+                            <constraint firstItem="Qr5-0c-8t5" firstAttribute="leading" secondItem="LkX-LY-nsD" secondAttribute="trailing" constant="8" symbolic="YES" id="eGu-q6-YPk"/>
                             <constraint firstItem="f7l-U7-Y9q" firstAttribute="centerX" secondItem="aVr-0i-NHp" secondAttribute="centerX" id="fdN-ZY-2c3"/>
                             <constraint firstItem="f7l-U7-Y9q" firstAttribute="width" secondItem="aVr-0i-NHp" secondAttribute="width" id="iCp-Qh-JBe"/>
+                            <constraint firstItem="LkX-LY-nsD" firstAttribute="leading" secondItem="Uza-3i-ydu" secondAttribute="leading" id="n7Y-03-W1x"/>
                             <constraint firstItem="zo0-9S-n2X" firstAttribute="width" secondItem="Nsp-vi-R8R" secondAttribute="width" id="n93-Zl-4sI"/>
-                            <constraint firstItem="HB5-LZ-ymf" firstAttribute="trailing" secondItem="aVr-0i-NHp" secondAttribute="trailing" id="qVa-7x-gll"/>
                             <constraint firstItem="Nsp-vi-R8R" firstAttribute="leading" secondItem="aVr-0i-NHp" secondAttribute="trailing" constant="8" symbolic="YES" id="qqM-QT-aIj"/>
+                            <constraint firstItem="Qr5-0c-8t5" firstAttribute="centerY" secondItem="LkX-LY-nsD" secondAttribute="centerY" id="rEy-TU-MXc"/>
+                            <constraint firstItem="UOe-A1-iY1" firstAttribute="height" secondItem="Qve-rp-alL" secondAttribute="height" id="sHZ-zd-olC"/>
                             <constraint firstItem="f7l-U7-Y9q" firstAttribute="centerY" secondItem="aVr-0i-NHp" secondAttribute="centerY" id="sks-cM-zlF"/>
                             <constraint firstItem="aVr-0i-NHp" firstAttribute="top" secondItem="Og2-Yp-xQ7" secondAttribute="bottom" constant="8" symbolic="YES" id="sqC-Ek-1jJ"/>
                             <constraint firstItem="zo0-9S-n2X" firstAttribute="centerX" secondItem="Nsp-vi-R8R" secondAttribute="centerX" id="tqP-G2-r82"/>
@@ -765,6 +787,7 @@
                         <outlet property="imageUnavailableLabel" destination="f7l-U7-Y9q" id="xOt-hg-Eh5"/>
                         <outlet property="imageView" destination="aVr-0i-NHp" id="0Uy-UX-FH9"/>
                         <outlet property="sideboardButton" destination="LkX-LY-nsD" id="xEW-W1-8Nw"/>
+                        <outlet property="sideboardCountLabel" destination="UOe-A1-iY1" id="Vs5-hr-7dU"/>
                         <outlet property="spinner" destination="Jan-hz-wUE" id="cyv-fY-kwa"/>
                         <outlet property="textLabel" destination="YzP-o2-gcq" id="11i-0H-34y"/>
                         <outlet property="typeLabel" destination="1tx-bB-lUn" id="NkG-E8-JTa"/>
