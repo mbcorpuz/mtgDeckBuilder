@@ -82,21 +82,19 @@ struct UpdateCardReference: Action {
 
 // MARK: - Search Actions
 
-struct SetNewParameters: Action {
+struct PrepareForSearch: Action {
     let parameters: [String: Any]
 }
 
 struct SearchForCards: Action {
-    let results: Result<[CardResult]>?
+    let result: Result<ApiResult>?
     let parameters: [String: Any]
     let isLoading: Bool
-    let remainingRequests: Int?
 }
 
 struct SearchForAdditionalCards: Action {
-    let results: Result<[CardResult]>?
+    let result: Result<ApiResult>?
     let isLoading: Bool
-    let remainingRequests: Int?
 }
 
 struct ImagesDownloadComplete: Action { }

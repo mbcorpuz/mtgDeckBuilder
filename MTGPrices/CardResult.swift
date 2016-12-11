@@ -27,6 +27,7 @@ struct CardResult: Mappable {
     var subtypes: [String]?
     var types: [String]!
     var supertypes: [String]?
+    var layout: String!
     
     init?(map: Map) { }
     
@@ -67,6 +68,7 @@ struct CardResult: Mappable {
         subtypes    <- map["subtypes"]
         types       <- map["types"]
         supertypes  <- map["supertypes"]
+        layout      <- map["layout"]
         
     }
     

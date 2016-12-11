@@ -12,11 +12,10 @@ import Alamofire
 
 struct State: StateType {
     var decks: [Deck]!
-    var cardResults: Result<[CardResult]>?
+    var cardResults: Result<ApiResult>?
     var parameters: [String: Any]?
     var shouldSearch: Bool
     var isLoading: Bool
-    var remainingRequests: Int?
-    var additionalCardResults: Result<[CardResult]>?
+    var additionalCardResults: Result<ApiResult>?
     var isDownloadingImages: Bool
 }

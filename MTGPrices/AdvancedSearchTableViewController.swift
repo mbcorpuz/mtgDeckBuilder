@@ -31,6 +31,7 @@ class AdvancedSearchTableViewController: UITableViewController, StoreSubscriber 
         super.viewDidLoad()
         
         title = "Filters"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
         
         tableView.register(ColorSelectionTableViewCell.self, forCellReuseIdentifier: Cell.colorSelectionCell)
         tableView.register(ColorConstraintsTableViewCell.self, forCellReuseIdentifier: Cell.colorConstraintCell)
@@ -53,12 +54,16 @@ class AdvancedSearchTableViewController: UITableViewController, StoreSubscriber 
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        configureParameters()
-        store.dispatch(SetNewParameters(parameters: parameters))
         store.unsubscribe(self)
     }
     
     // MARK: - Methods
+    
+    func searchButtonTapped() {
+        configureParameters()
+        store.dispatch(PrepareForSearch(parameters: parameters))
+        _ = navigationController!.popViewController(animated: true)
+    }
     
     func configureParameters() {
         parameters.removeAll()

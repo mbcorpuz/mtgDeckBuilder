@@ -21,7 +21,7 @@ func searchForAdditionalCardsActionCreator(url: URLConvertible, parameters: Para
                 print("error retrieving cards")
                 let errorCode = ErrorCode(rawValue: response.response?.statusCode ?? 0)
                 let apiError = ApiError(status: errorCode, type: nil, message: "Error retrieving card data")
-                store.dispatch(SearchForAdditionalCards(results: Result.failure(apiError), isLoading: false, remainingRequests: nil))
+                store.dispatch(SearchForAdditionalCards(result: Result.failure(apiError), isLoading: false))
                 return
             }
             guard response.response?.statusCode == 200 else {
@@ -29,20 +29,20 @@ func searchForAdditionalCardsActionCreator(url: URLConvertible, parameters: Para
                 // Assuming statusCode is guaranteed to have a non-optional value.
                 // TODO: - Check that ^
                 let apiError = Mapper<ApiError>().map(JSONObject: json)!
-                store.dispatch(SearchForAdditionalCards(results: Result.failure(apiError), isLoading: false, remainingRequests: nil))
+                store.dispatch(SearchForAdditionalCards(result: Result.failure(apiError), isLoading: false))
                 return
             }
             
-            print("no error retrieving")
             var remainingRequests: Int? = nil
             if let limitString = (response.response?.allHeaderFields["ratelimit-remaining"] as? String) {
                 remainingRequests = Int(limitString)
                 print("remaining requests this hour: \(remainingRequests!)")
             }
-            if let retrievedCards = Mapper<ApiResult>().map(JSONObject: json) {
-                store.dispatch(SearchForAdditionalCards(results: Result.success(retrievedCards.cards), isLoading: false, remainingRequests: remainingRequests))
+            if var apiResult = Mapper<ApiResult>().map(JSONObject: json) {
+                apiResult.headers = response.response?.allHeaderFields
+                store.dispatch(SearchForAdditionalCards(result: Result.success(apiResult), isLoading: false))
             }
         }
-        return SearchForAdditionalCards(results: nil, isLoading: true, remainingRequests: nil)
+        return SearchForAdditionalCards(result: nil, isLoading: true)
     }
 }

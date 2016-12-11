@@ -25,7 +25,7 @@ func getInitialState() -> State {
         print("core data decks fetch failed")
     }
     
-    return State(decks: decks, cardResults: nil, parameters: nil, shouldSearch: false, isLoading: false, remainingRequests: nil, additionalCardResults: nil, isDownloadingImages: false)
+    return State(decks: decks, cardResults: nil, parameters: nil, shouldSearch: false, isLoading: false, additionalCardResults: nil, isDownloadingImages: false)
 }
 
 struct StateReducer: Reducer {
@@ -95,6 +95,7 @@ struct StateReducer: Reducer {
                     card.toughness = action.sideboardCard.toughness
                     card.type = action.sideboardCard.type
                     card.names = action.sideboardCard.names
+                    card.layout = action.sideboardCard.layout
                     card.isSideboard = false
                     card.deck = action.deck
                 }
@@ -150,6 +151,7 @@ struct StateReducer: Reducer {
                     card.colors = action.card.colors?.joined(separator: ", ") ?? "Colorless"
                     card.names = action.card.names?.joined(separator: "|")
                     card.deck = action.deck
+                    card.layout = action.card.layout
                     card.isSideboard = false
                     card.amount = 1
                 }
@@ -184,6 +186,7 @@ struct StateReducer: Reducer {
                     card.toughness = action.mainboardCard.toughness
                     card.type = action.mainboardCard.type
                     card.names = action.mainboardCard.names
+                    card.layout = action.mainboardCard.layout
                     card.isSideboard = true
                     card.deck = action.deck
                 }
@@ -239,6 +242,7 @@ struct StateReducer: Reducer {
                     card.colors = action.card.colors?.joined(separator: ", ") ?? "Colorless"
                     card.names = action.card.names?.joined(separator: "|")
                     card.deck = action.deck
+                    card.layout = action.card.layout
                     card.isSideboard = true
                     card.amount = 1
                 }
@@ -317,18 +321,16 @@ struct StateReducer: Reducer {
         // MARK: - Search Actions
             
         case let action as SearchForCards:
-            state.cardResults = action.results
+            state.cardResults = action.result
             state.parameters = action.parameters
             state.shouldSearch = false
             state.isLoading = action.isLoading
-            state.remainingRequests = action.remainingRequests
             
         case let action as SearchForAdditionalCards:
-            state.additionalCardResults = action.results
+            state.additionalCardResults = action.result
             state.isLoading = action.isLoading
-            state.remainingRequests = action.remainingRequests
             
-        case let action as SetNewParameters:
+        case let action as PrepareForSearch:
             state.parameters = action.parameters
             state.shouldSearch = true
             

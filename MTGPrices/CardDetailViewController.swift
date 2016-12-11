@@ -133,7 +133,7 @@ class CardDetailViewController: UIViewController, StoreSubscriber {
         
         // Fetch flip card & its image.
         flipButton.isHidden = true
-        let hasFlipSide = shouldUseResult ? cardResult!.names != nil : card!.names != nil
+        let hasFlipSide = shouldUseResult ? cardResult!.layout == "double-faced" : card!.layout == "double-faced"
         if hasFlipSide {
             var parameters: [String: Any] = [:]
             parameters["name"] = getFlippedName()
@@ -292,7 +292,7 @@ class CardDetailViewController: UIViewController, StoreSubscriber {
         if waitingForFlippedResult && !state.isLoading {
             waitingForFlippedResult = false
             if state.additionalCardResults!.isSuccess {
-                flippedCard = state.additionalCardResults!.value![0]
+                flippedCard = state.additionalCardResults!.value!.cards[0]
                 if let imageUrl = flippedCard?.imageUrl {
                     fetchFlipImage(from: imageUrl)
                 }
