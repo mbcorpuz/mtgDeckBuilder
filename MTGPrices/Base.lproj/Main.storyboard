@@ -85,9 +85,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="958" y="36"/>
+            <point key="canvasLocation" x="1905" y="423"/>
         </scene>
-        <!--Deck View Controller-->
+        <!--Cards-->
         <scene sceneID="bej-yj-KVJ">
             <objects>
                 <viewController storyboardIdentifier="DeckViewController" id="rYc-3R-dhI" customClass="DeckViewController" customModule="MTGPrices" sceneMemberID="viewController">
@@ -103,10 +103,10 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Creature" id="Ym6-Yg-zUx" customClass="CardTableViewCell" customModule="MTGPrices" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ym6-Yg-zUx" id="sSt-5H-Xa7">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QDh-ao-OnA">
@@ -175,10 +175,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Spell" id="htz-mp-53Y" customClass="CardTableViewCell" customModule="MTGPrices" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="htz-mp-53Y" id="bxJ-dp-FRl">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jF1-gd-Xj2">
@@ -247,10 +247,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Land" id="Rhz-MA-3OO" customClass="CardTableViewCell" customModule="MTGPrices" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="143.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="144" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rhz-MA-3OO" id="BGm-y5-ZII">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DKg-5Z-Kyg">
@@ -319,10 +319,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Sideboard" id="DNM-vS-ydx" customClass="CardTableViewCell" customModule="MTGPrices" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="187.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="188" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DNM-vS-ydx" id="y5l-hy-uuA">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pu7-pE-zTE">
@@ -396,40 +396,40 @@
                                     <outlet property="delegate" destination="rYc-3R-dhI" id="reW-sL-rpy"/>
                                 </connections>
                             </tableView>
+                            <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SZl-ts-hhn">
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <items>
+                                    <tabBarItem title="Cards" id="h6K-rp-2gG"/>
+                                    <tabBarItem title="Stats" id="EGw-9t-P3w"/>
+                                </items>
+                            </tabBar>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kXs-0K-We1"/>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="h9a-Dv-PmU" firstAttribute="bottom" secondItem="Lo9-Pe-slq" secondAttribute="top" id="GwE-br-0ey"/>
+                            <constraint firstItem="SZl-ts-hhn" firstAttribute="leading" secondItem="DVD-62-glS" secondAttribute="leadingMargin" constant="-16" id="00U-Wy-IzT"/>
+                            <constraint firstItem="kXs-0K-We1" firstAttribute="centerY" secondItem="h9a-Dv-PmU" secondAttribute="centerY" id="6bg-6k-m2f"/>
+                            <constraint firstItem="Lo9-Pe-slq" firstAttribute="top" secondItem="SZl-ts-hhn" secondAttribute="bottom" id="IfG-xJ-CZ5"/>
                             <constraint firstItem="h9a-Dv-PmU" firstAttribute="leading" secondItem="DVD-62-glS" secondAttribute="leading" id="XWE-cb-94l"/>
+                            <constraint firstItem="kXs-0K-We1" firstAttribute="width" secondItem="h9a-Dv-PmU" secondAttribute="width" id="bgd-3y-BnJ"/>
+                            <constraint firstItem="SZl-ts-hhn" firstAttribute="top" secondItem="h9a-Dv-PmU" secondAttribute="bottom" id="mUl-B7-wx3"/>
                             <constraint firstItem="h9a-Dv-PmU" firstAttribute="top" secondItem="DVD-62-glS" secondAttribute="top" id="oIs-wM-ayg"/>
+                            <constraint firstItem="kXs-0K-We1" firstAttribute="centerX" secondItem="h9a-Dv-PmU" secondAttribute="centerX" id="omG-6f-a2y"/>
+                            <constraint firstItem="kXs-0K-We1" firstAttribute="height" secondItem="h9a-Dv-PmU" secondAttribute="height" id="s0D-u2-mL8"/>
                             <constraint firstAttribute="trailing" secondItem="h9a-Dv-PmU" secondAttribute="trailing" id="sKw-F6-sBb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="SZl-ts-hhn" secondAttribute="trailing" constant="-16" id="tHf-aj-6Hc"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Cards" id="5Vt-C8-2p6"/>
                     <connections>
+                        <outlet property="statsView" destination="kXs-0K-We1" id="Afy-VS-cJe"/>
+                        <outlet property="tabBar" destination="SZl-ts-hhn" id="WPe-4W-3fZ"/>
                         <outlet property="tableView" destination="h9a-Dv-PmU" id="Fam-zB-U3S"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IMu-rY-Tyj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1672.8" y="35.532233883058474"/>
-        </scene>
-        <!--Deck Stats View Controller-->
-        <scene sceneID="CDs-Bb-laf">
-            <objects>
-                <viewController storyboardIdentifier="DeckStatsViewController" id="VrI-uP-zUR" customClass="DeckStatsViewController" customModule="MTGPrices" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="sni-Aa-d4h"/>
-                        <viewControllerLayoutGuide type="bottom" id="ZHj-ln-7sP"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="It9-aW-YwO">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="usm-Eh-70e" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1673" y="724"/>
+            <point key="canvasLocation" x="2550" y="434"/>
         </scene>
         <!--Add Card View Controller-->
         <scene sceneID="juy-yZ-3Zc">
@@ -492,11 +492,11 @@
                                         <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NOX-Gf-WvI" id="35f-RP-KMZ">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Loading Info Cell" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BPW-4u-xaH">
-                                                    <frame key="frameInset" minX="15" width="345" height="43"/>
+                                                    <frame key="frameInset" minX="15" width="345" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -509,11 +509,11 @@
                                         <rect key="frame" x="0.0" y="116" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xUJ-mQ-OMO" id="bAt-ck-TBy">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Show More Results" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7Ey-4s-WL8">
-                                                    <frame key="frameInset" minX="15" width="345" height="43"/>
+                                                    <frame key="frameInset" minX="15" width="345" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -561,7 +561,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kMp-fw-4Kz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2397.5999999999999" y="35.532233883058474"/>
+            <point key="canvasLocation" x="3308" y="35.532233883058474"/>
         </scene>
         <!--Advanced Search Table View Controller-->
         <scene sceneID="8Le-RX-EZf">
@@ -661,7 +661,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="agf-Eq-Tpy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3189.5999999999999" y="35.532233883058474"/>
+            <point key="canvasLocation" x="4008.8000000000002" y="35.532233883058474"/>
         </scene>
         <!--Card Detail View Controller-->
         <scene sceneID="hn5-N4-jz9">
@@ -829,7 +829,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fdW-Ch-clf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1672.8" y="-626.53673163418296"/>
+            <point key="canvasLocation" x="3308" y="706"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="h7x-Zv-fE9">
@@ -847,7 +847,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V8Y-Al-PYA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="154" y="-353"/>
+            <point key="canvasLocation" x="1167" y="423"/>
         </scene>
     </scenes>
 </document>

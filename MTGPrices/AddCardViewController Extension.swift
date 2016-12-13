@@ -95,11 +95,15 @@ extension AddCardViewController: UITableViewDelegate, UITableViewDataSource, UIS
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard !rowIsSelected else { return }
-        rowIsSelected = true
+        guard !cardResults.isEmpty else {
+            tableView.deselectRow(at: indexPath, animated: true)
+            return
+        }
         
+        rowIsSelected = true
         self.searchBar.resignFirstResponder()
         
-        if indexPath.row == cardResults.count {
+        if indexPath.row == cardResults.count{
             tableView.cellForRow(at: indexPath)!.textLabel?.text = "Retrieving Cards..."
             tableView.deselectRow(at: indexPath, animated: true)
             currentPage += 1

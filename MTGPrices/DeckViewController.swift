@@ -12,7 +12,9 @@ class DeckViewController: UIViewController, StoreSubscriber {
     
     // MARK: - IBOutlets
     
+    @IBOutlet weak var statsView: UIImageView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tabBar: UITabBar!
     
     
     // MARK: - Stored Properties
@@ -20,40 +22,6 @@ class DeckViewController: UIViewController, StoreSubscriber {
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var deck: Deck!
     var cards = [Card]()
-    
-    var creatures: [Card] {
-        return cards.filter { !$0.isSideboard && ($0.type.contains("Creature") || $0.type.contains("Summon")) && !$0.type.contains("Land") }.sorted {
-            if $0.0.cmc.cmcToInt != $0.1.cmc.cmcToInt {
-                return $0.0.cmc.cmcToInt < $0.1.cmc.cmcToInt
-            } else {
-                return $0.0.name < $0.1.name
-            }
-        }
-    }
-    
-    var spells: [Card] {
-        return cards.filter { !$0.isSideboard && !$0.type.contains("Creature") && !$0.type.contains("Land") }.sorted {
-            if $0.0.cmc.cmcToInt != $0.1.cmc.cmcToInt {
-                return $0.0.cmc.cmcToInt < $0.1.cmc.cmcToInt
-            } else {
-                return $0.0.name < $0.1.name
-            }
-        }
-    }
-    
-    var lands: [Card] {
-        return cards.filter { !$0.isSideboard && $0.type.contains("Land") }.sorted { $0.0.name < $0.1.name }
-    }
-    
-    var sideboard: [Card] {
-        return cards.filter { $0.isSideboard }.sorted {
-            if $0.0.cmc.cmcToInt != $0.1.cmc.cmcToInt {
-                return $0.0.cmc.cmcToInt < $0.1.cmc.cmcToInt
-            } else {
-                return $0.0.name < $0.1.name
-            }
-        }
-    }
     
     // MARK: - View Lifecycle Methods
     
@@ -63,6 +31,13 @@ class DeckViewController: UIViewController, StoreSubscriber {
         title = deck.name
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Deck", style: .plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(searchForCards))
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(viewRotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        
+        tabBar.delegate = self
+        tabBar.selectedItem = tabBar.items![0]
+        
+        statsView.backgroundColor = UIColor.groupTableViewBackground
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,6 +53,7 @@ class DeckViewController: UIViewController, StoreSubscriber {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         store.unsubscribe(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func didReceiveMemoryWarning() {
@@ -118,3 +94,40 @@ class DeckViewController: UIViewController, StoreSubscriber {
     }
     
 }
+
+extension DeckViewController: UITabBarDelegate {
+    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        self.tabBar.isUserInteractionEnabled = false
+        
+        if item == tabBar.items![0] && tableView.isHidden {
+            tableView.alpha = 0
+            tableView.isHidden = false
+            UIView.animate(
+                withDuration: 0.35,
+                animations: { [unowned self] in
+                    self.statsView.alpha = 0
+                    self.tableView.alpha = 1
+                },
+                completion: { [unowned self] finished in
+                    self.statsView.isHidden = true
+                })
+        } else if item == tabBar.items![1] && !tableView.isHidden {
+            statsView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+            statsView.alpha = 0
+            statsView.isHidden = false
+            UIView.animate(
+                withDuration: 0.35,
+                animations: { [unowned self] in
+                    self.tableView.alpha = 0
+                    self.statsView.alpha = 1
+                },
+                completion: { [unowned self] finished in
+                    self.tableView.isHidden = true
+                })
+            drawStats()
+        }
+        
+        self.tabBar.isUserInteractionEnabled = true
+    }
+}
+

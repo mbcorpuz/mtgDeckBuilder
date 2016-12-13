@@ -33,11 +33,6 @@ func searchForAdditionalCardsActionCreator(url: URLConvertible, parameters: Para
                 return
             }
             
-            var remainingRequests: Int? = nil
-            if let limitString = (response.response?.allHeaderFields["ratelimit-remaining"] as? String) {
-                remainingRequests = Int(limitString)
-                print("remaining requests this hour: \(remainingRequests!)")
-            }
             if var apiResult = Mapper<ApiResult>().map(JSONObject: json) {
                 apiResult.headers = response.response?.allHeaderFields
                 store.dispatch(SearchForAdditionalCards(result: Result.success(apiResult), isLoading: false))

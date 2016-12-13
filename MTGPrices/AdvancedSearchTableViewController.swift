@@ -104,7 +104,6 @@ class AdvancedSearchTableViewController: UITableViewController, StoreSubscriber 
     }
     
     func colorSelectionButtonSelected(sender: UIButton!) {
-        print("got color selection choice")
         guard sender.tag == ButtonTags.colorSelection else { return }
         
         let color = sender.titleLabel!.text!

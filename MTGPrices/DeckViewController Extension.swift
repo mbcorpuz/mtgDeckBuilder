@@ -12,6 +12,40 @@ extension DeckViewController: UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Computed Properties
     
+    var creatures: [Card] {
+        return cards.filter { !$0.isSideboard && ($0.type.contains("Creature") || $0.type.contains("Summon")) && !$0.type.contains("Land") }.sorted {
+            if $0.0.cmc.cmcToInt != $0.1.cmc.cmcToInt {
+                return $0.0.cmc.cmcToInt < $0.1.cmc.cmcToInt
+            } else {
+                return $0.0.name < $0.1.name
+            }
+        }
+    }
+    
+    var spells: [Card] {
+        return cards.filter { !$0.isSideboard && !$0.type.contains("Creature") && !$0.type.contains("Land") }.sorted {
+            if $0.0.cmc.cmcToInt != $0.1.cmc.cmcToInt {
+                return $0.0.cmc.cmcToInt < $0.1.cmc.cmcToInt
+            } else {
+                return $0.0.name < $0.1.name
+            }
+        }
+    }
+    
+    var lands: [Card] {
+        return cards.filter { !$0.isSideboard && $0.type.contains("Land") }.sorted { $0.0.name < $0.1.name }
+    }
+    
+    var sideboard: [Card] {
+        return cards.filter { $0.isSideboard }.sorted {
+            if $0.0.cmc.cmcToInt != $0.1.cmc.cmcToInt {
+                return $0.0.cmc.cmcToInt < $0.1.cmc.cmcToInt
+            } else {
+                return $0.0.name < $0.1.name
+            }
+        }
+    }
+    
     var creaturesCount: Int {
         var count = 0
         for creature in creatures {
