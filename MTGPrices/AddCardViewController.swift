@@ -42,7 +42,7 @@ class AddCardViewController: UIViewController, StoreSubscriber {
         super.viewDidLoad()
 
         title = "Card Search"
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Quick Search", style: .plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filters", style: .plain, target: self, action: #selector(advancedSearchButtonTapped))
         
         searchBar.scopeButtonTitles = ["Alphabetical", "Color", "CMC"]

@@ -199,19 +199,19 @@ class CardDetailViewController: UIViewController, StoreSubscriber {
     private func fetchMainImage(from urlString: String) {
         let cardUrl = URL(string: urlString)!
         
-        DispatchQueue.global(qos: .userInteractive).async { [unowned self] in
+        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
             if let data = try? Data(contentsOf: cardUrl) {
                 DispatchQueue.main.async {
                     let mainImage = UIImage(data: data)
-                    self.spinner.stopAnimating()
-                    self.imageView.image = mainImage
-                    self.mainImage = mainImage
+                    self?.spinner.stopAnimating()
+                    self?.imageView.image = mainImage
+                    self?.mainImage = mainImage
                 }
             } else {
                 DispatchQueue.main.async {
-                    self.spinner.stopAnimating()
-                    self.imageUnavailableLabel.isHidden = false
-                    self.imageView.isHidden = true
+                    self?.spinner.stopAnimating()
+                    self?.imageUnavailableLabel.isHidden = false
+                    self?.imageView.isHidden = true
                 }
             }
         }

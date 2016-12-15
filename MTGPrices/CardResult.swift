@@ -36,10 +36,8 @@ struct CardResult: Mappable {
         let intToString = TransformOf<String, Int>(
             fromJSON: { (value: Int?) -> String? in
                 if let value = value {
-//                    print("mapping '\(value)' cmc as a string")
                     return String(value)
                 } else {
-//                    print("mapped cmc to 'none'")
                     return "None"
                 }
             },

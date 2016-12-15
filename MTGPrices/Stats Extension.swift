@@ -8,98 +8,152 @@
 
 import Foundation
 import UIKit
+import Charts
 
-extension DeckViewController {
+extension DeckViewController: UIScrollViewDelegate, UIPopoverPresentationControllerDelegate {
     
-    func viewRotated() {
-        statsView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
-        drawStats()
-    }
-    
-    func drawStats() {
-        drawColorCircle()
-    }
-    
-    func drawColorCircle() {
-        
-        var whiteCount: CGFloat = 0
-        var blueCount: CGFloat = 0
-        var blackCount: CGFloat = 0
-        var redCount: CGFloat = 0
-        var greenCount: CGFloat = 0
+    func setColorPieChartData() {
+        var coloredSymbols = Array<Double>(repeatElement(0.0, count: 5))
         
         for card in cards {
             if let manaCost = card.manaCost, !card.isSideboard {
                 for color in manaCost.characters {
                     switch color {
-                    case "W": whiteCount += 1 * CGFloat(card.amount)
-                    case "U": blueCount += 1 * CGFloat(card.amount)
-                    case "B": blackCount += 1 * CGFloat(card.amount)
-                    case "R": redCount += 1 * CGFloat(card.amount)
-                    case "G": greenCount += 1 * CGFloat(card.amount)
+                    case "W": coloredSymbols[0] += Double(card.amount)
+                    case "U": coloredSymbols[1] += Double(card.amount)
+                    case "B": coloredSymbols[2] += Double(card.amount)
+                    case "R": coloredSymbols[3] += Double(card.amount)
+                    case "G": coloredSymbols[4] += Double(card.amount)
                     default: break
                     }
                 }
             }
         }
+        let totalColoredSymbols = coloredSymbols.reduce(0.0) { $0 + $1 }
+        let colorNames = ["White", "Blue", "Black", "Red", "Green"]
+        let colorList = [NSUIColor(cgColor: Colors.manaWhite.cgColor), NSUIColor(cgColor: UIColor.blue.cgColor), NSUIColor(cgColor: Colors.manaBlack.cgColor), NSUIColor(cgColor: UIColor.red.cgColor), NSUIColor(cgColor: Colors.manaGreen.cgColor)]
         
-        let totalColoredCards = whiteCount + blueCount + blackCount + redCount + greenCount
-        let whiteEndAngle = 360 * (whiteCount / totalColoredCards)
-        let blueEndAngle = 360 * (blueCount / totalColoredCards) + whiteEndAngle
-        let blackEndAngle = 360 * (blackCount / totalColoredCards) + blueEndAngle
-        let redEndAngle = 360 * (redCount / totalColoredCards) + blackEndAngle
+        var entries = [PieChartDataEntry]()
+        var colors = [NSUIColor]()
         
-        let circleCenter = CGPoint(x: statsView.frame.midX, y: statsView.frame.midY)
-        let piePieces = [
-            (UIBezierPath(circleSegmentCenter: circleCenter, radius: Constants.radius, startAngle: 0, endAngle: whiteEndAngle), UIColor.white),
-            (UIBezierPath(circleSegmentCenter: circleCenter, radius: Constants.radius, startAngle: whiteEndAngle, endAngle: blueEndAngle), UIColor.blue),
-            (UIBezierPath(circleSegmentCenter: circleCenter, radius: Constants.radius, startAngle: blueEndAngle, endAngle: blackEndAngle), UIColor.black),
-            (UIBezierPath(circleSegmentCenter: circleCenter, radius: Constants.radius, startAngle: blackEndAngle, endAngle: redEndAngle), UIColor.red),
-            (UIBezierPath(circleSegmentCenter: circleCenter, radius: Constants.radius, startAngle: redEndAngle, endAngle: 360), UIColor(red: 0.18, green: 0.76, blue: 0.36, alpha: 1.0))
-        ]
-        drawPieChart(pieces: piePieces)
+        for (index, color) in coloredSymbols.enumerated() where color > 0 {
+            let dataEntry = PieChartDataEntry(value: color / totalColoredSymbols, label: colorNames[index])
+            entries.append(dataEntry)
+            colors.append(colorList[index])
+        }
         
-        let innerCirceLayer = CAShapeLayer()
-        innerCirceLayer.path = UIBezierPath(arcCenter: circleCenter, radius: Constants.radius / 2, startAngle: 0, endAngle: 360, clockwise: true).cgPath
-        innerCirceLayer.fillColor = UIColor.groupTableViewBackground.cgColor
-        statsView.layer.addSublayer(innerCirceLayer)
+        let dataSets = PieChartDataSet(values: entries, label: "")
+        dataSets.colors = colors
+        dataSets.drawValuesEnabled = false
+        
+        let data = PieChartData(dataSet: dataSets)
+        data.setValueTextColor(UIColor.clear)
+        colorPieChartView.data = data
+        
+        colorPieChartView.chartDescription?.text = "Mana Symbols"
     }
     
-    func drawPieChart(pieces: [(UIBezierPath, UIColor)]) {
-        var layers = [CAShapeLayer]()
-        for piece in pieces {
-            let layer = CAShapeLayer()
-            layer.path = piece.0.cgPath
-            layer.fillColor = piece.1.cgColor
-            layer.strokeColor = UIColor.groupTableViewBackground.cgColor
-            layer.lineWidth = 5.0
-            layers.append(layer)
+    func setTypePieChartData() {
+        var cardTypes = Array<Double>(repeatElement(0.0, count: 6))
+        cardTypes[0] = Double(creaturesCount)
+        cardTypes[5] = Double(landsCount)
+        
+        for card in spells {
+            if card.type.contains("Instant") || card.type.contains("Sorcery") {
+                cardTypes[1] += Double(card.amount)
+            } else if card.type.contains("Planeswalker") {
+                cardTypes[2] += Double(card.amount)
+            } else if card.type.contains("Artifact") {
+                cardTypes[3] += Double(card.amount)
+            } else if card.type.contains("Enchantment") {
+                cardTypes[4] += Double(card.amount)
+            }
         }
-        for layer in layers {
-            statsView.layer.addSublayer(layer)
+        let totalCards = cardTypes.reduce(0.0) { $0 + $1 }
+        let typeNames = ["Creatures", "Instants & Sorceries", "Planeswalkers", "Artifacts", "Enchantments", "Lands"]
+        let colorList = [NSUIColor(cgColor: Colors.creatureColor.cgColor), NSUIColor(cgColor: Colors.instantSorceryColor.cgColor), NSUIColor(cgColor: Colors.planeswalkerColor.cgColor), NSUIColor(cgColor: Colors.artifactColor.cgColor), NSUIColor(cgColor: Colors.enchantmentColor.cgColor), NSUIColor(cgColor: Colors.landColor.cgColor)]
+        
+        var entries = [PieChartDataEntry]()
+        var colors = [NSUIColor]()
+        
+        for (index, type) in cardTypes.enumerated() where type > 0 {
+            let dataEntry = PieChartDataEntry(value: type / totalCards, label: typeNames[index])
+            entries.append(dataEntry)
+            colors.append(colorList[index])
         }
+        
+        let dataSets = PieChartDataSet(values: entries, label: "")
+        dataSets.colors = colors
+        dataSets.drawValuesEnabled = false
+        
+        let data = PieChartData(dataSet: dataSets)
+        data.setValueTextColor(UIColor.clear)
+        typePieChartView.data = data
+        
+        typePieChartView.chartDescription?.text = "Card Types"
     }
     
+    func setCostBarChartData() {
+        var costs = Array<Double>(repeatElement(0, count: 16))
+        for card in cards where !card.isSideboard {
+            if let cmc = Int(card.cmc) {
+                costs[cmc] += Double(card.amount)
+            }
+        }
+        
+        var dataSets: [BarChartDataEntry] = []
+        var largestAmount = 0
+        var largestCmc = 0
+        for (cmc, amount) in costs.enumerated() {
+            if amount > 0 {
+                dataSets.append(BarChartDataEntry(x: Double(cmc), y: amount))
+                largestAmount = max(largestAmount, Int(amount))
+                largestCmc = cmc
+            }
+        }
+        let dataSet = BarChartDataSet(values: dataSets, label: "CMC")
+        dataSet.drawValuesEnabled = false
+        let data = BarChartData()
+        data.addDataSet(dataSet)
+        costBarChartView.data = data
+        
+        costBarChartView.fitBars = true
+        costBarChartView.legend.enabled = false
+        costBarChartView.chartDescription?.text = "Mana Curve"
+        costBarChartView.rightAxis.enabled = false
+        
+        // Format X-Axis.
+        costBarChartView.xAxis.labelPosition = .bottom
+        costBarChartView.xAxis.drawGridLinesEnabled = false
+        costBarChartView.xAxis.valueFormatter = BarChartFormatter()
+        costBarChartView.xAxis.wordWrapEnabled = true
+        costBarChartView.xAxis.forceLabelsEnabled = true
+        costBarChartView.xAxis.labelCount = largestCmc
+        
+        // Format Y-Axis.
+        costBarChartView.leftAxis.granularityEnabled = true
+        costBarChartView.leftAxis.granularity = 1.0
+        costBarChartView.leftAxis.forceLabelsEnabled = true
+        costBarChartView.leftAxis.labelCount = largestAmount
+    }
     
-    // MARK: - Supporting Functionality
-    
-    struct Constants {
-        static let radius: CGFloat = 100
+    struct Colors {
+        static let background = UIColor(red: 0.94, green: 0.94, blue: 0.94, alpha: 1.0)
+        static let manaWhite = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        static let manaBlack = UIColor(red: 0, green: 0, blue: 0, alpha: 1.0)
+        static let manaGreen = UIColor(red: 0.18, green: 0.76, blue: 0.36, alpha: 1.0)
+        static let creatureColor = UIColor(red: 0.2, green: 0.85, blue: 1.0, alpha: 1.0)
+        static let instantSorceryColor = UIColor(red: 0.6, green: 1.0, blue: 0.2, alpha: 1.0)
+        static let planeswalkerColor = UIColor(red: 0.48, green: 0.2, blue: 1.0, alpha: 1.0)
+        static let artifactColor = UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1.0)
+        static let enchantmentColor = UIColor(red: 0.94, green: 0.93, blue: 0.4, alpha: 1.0)
+        static let landColor = UIColor(red: 0.89, green: 0.59, blue: 0.89, alpha: 1.0)
     }
     
 }
 
-extension CGFloat {
-    var radians: CGFloat {
-        return CGFloat(M_PI) * (self / 180)
-    }
-}
-
-extension UIBezierPath {
-    convenience init(circleSegmentCenter center: CGPoint, radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat) {
-        self.init()
-        self.move(to: CGPoint(x: center.x, y: center.y))
-        self.addArc(withCenter: center, radius: radius, startAngle: startAngle.radians, endAngle: endAngle.radians, clockwise: true)
-        self.close()
+public class BarChartFormatter: NSObject, IAxisValueFormatter {
+    public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        return String(Int(value))
     }
 }

@@ -7,18 +7,22 @@
 //
 import UIKit
 import ReSwift
+import Charts
 
 class DeckViewController: UIViewController, StoreSubscriber {
     
     // MARK: - IBOutlets
     
-    @IBOutlet weak var statsView: UIImageView!
+    @IBOutlet weak var statsScrollView: UIScrollView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tabBar: UITabBar!
     
     
-    // MARK: - Stored Properties
+    // MARK: - Properties
     
+    let colorPieChartView = PieChartView()
+    let typePieChartView = PieChartView()
+    let costBarChartView = BarChartView()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var deck: Deck!
     var cards = [Card]()
@@ -32,22 +36,32 @@ class DeckViewController: UIViewController, StoreSubscriber {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Deck", style: .plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(searchForCards))
         
-        NotificationCenter.default.addObserver(self, selector: #selector(viewRotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(redraw), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         
         tabBar.delegate = self
         tabBar.selectedItem = tabBar.items![0]
         
-        statsView.backgroundColor = UIColor.groupTableViewBackground
+        statsScrollView.delegate = self
+        statsScrollView.isHidden = true
+        statsScrollView.backgroundColor = Colors.background
+        
+        statsScrollView.addSubview(colorPieChartView)
+        statsScrollView.addSubview(typePieChartView)
+        statsScrollView.addSubview(costBarChartView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         store.subscribe(self)
+        setColorPieChartData()
+        setTypePieChartData()
+        setCostBarChartData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         tableView.reloadData()
+        redraw()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -63,6 +77,19 @@ class DeckViewController: UIViewController, StoreSubscriber {
     
     
     // MARK: - Methods
+    
+    func redraw() {
+        if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
+            colorPieChartView.frame = CGRect(x: 0, y: 0, width: statsScrollView.frame.width * 0.33, height: statsScrollView.frame.height)
+            typePieChartView.frame = CGRect(x: colorPieChartView.frame.maxX, y: 0, width: statsScrollView.frame.width * 0.33, height: statsScrollView.frame.height)
+            costBarChartView.frame = CGRect(x: typePieChartView.frame.maxX, y: 0, width: statsScrollView.frame.width * 0.34, height: statsScrollView.frame.height)
+        } else {
+            colorPieChartView.frame = CGRect(x: 0, y: 0, width: statsScrollView.frame.width, height: statsScrollView.frame.height * 0.33)
+            typePieChartView.frame = CGRect(x: 0, y: colorPieChartView.frame.maxY, width: statsScrollView.frame.width, height: statsScrollView.frame.height * 0.33)
+            costBarChartView.frame = CGRect(x: 0, y: typePieChartView.frame.maxY, width: statsScrollView.frame.width, height: statsScrollView.frame.height * 0.34)
+        }
+        statsScrollView.contentSize = statsScrollView.frame.size
+    }
     
     func searchForCards() {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "AddCardViewController") as? AddCardViewController {
@@ -80,6 +107,10 @@ class DeckViewController: UIViewController, StoreSubscriber {
         } else {
             print("core data error fetching")
         }
+    }
+    
+    func viewRotated() {
+        guard !statsScrollView.isHidden else { return }
     }
     
     
@@ -105,26 +136,30 @@ extension DeckViewController: UITabBarDelegate {
             UIView.animate(
                 withDuration: 0.35,
                 animations: { [unowned self] in
-                    self.statsView.alpha = 0
+                    self.statsScrollView.alpha = 0
                     self.tableView.alpha = 1
                 },
                 completion: { [unowned self] finished in
-                    self.statsView.isHidden = true
+                    self.statsScrollView.isHidden = true
                 })
         } else if item == tabBar.items![1] && !tableView.isHidden {
-            statsView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
-            statsView.alpha = 0
-            statsView.isHidden = false
+            setColorPieChartData()
+            setTypePieChartData()
+            setCostBarChartData()
+            statsScrollView.alpha = 0
+            statsScrollView.isHidden = false
             UIView.animate(
                 withDuration: 0.35,
                 animations: { [unowned self] in
                     self.tableView.alpha = 0
-                    self.statsView.alpha = 1
+                    self.statsScrollView.alpha = 1
+                    self.colorPieChartView.animate(xAxisDuration: 0.0, yAxisDuration: 0.5)
+                    self.typePieChartView.animate(xAxisDuration: 0.0, yAxisDuration: 0.5)
+                    self.costBarChartView.animate(xAxisDuration: 0.5, yAxisDuration: 0.5)
                 },
                 completion: { [unowned self] finished in
                     self.tableView.isHidden = true
                 })
-            drawStats()
         }
         
         self.tabBar.isUserInteractionEnabled = true
