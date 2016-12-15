@@ -10,5 +10,6 @@ target 'MTGPrices' do
   pod 'AlamofireObjectMapper', '~> 4.0'
   pod 'ReSwift'
   pod 'DLRadioButton', '~> 1.4'
+  pod 'Charts'
 
 end

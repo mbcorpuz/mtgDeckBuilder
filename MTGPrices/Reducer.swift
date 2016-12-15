@@ -25,7 +25,7 @@ func getInitialState() -> State {
         print("core data decks fetch failed")
     }
     
-    return State(decks: decks, cardResults: nil, parameters: nil, shouldSearch: false, isLoading: false, remainingRequests: nil, additionalCardResults: nil, isDownloadingImages: false)
+    return State(decks: decks, cardResults: nil, parameters: nil, shouldSearch: false, isLoading: false, additionalCardResults: nil, isDownloadingImages: false)
 }
 
 struct StateReducer: Reducer {
@@ -36,6 +36,9 @@ struct StateReducer: Reducer {
         var state = state ?? getInitialState()
         
         switch action {
+            
+        // MARK: - Deck Actions
+            
         case let action as AddNewDeck:
             let deck = Deck(context: appDelegate.persistentContainer.viewContext)
             deck.name = action.name ?? "Untitled"
@@ -48,33 +51,6 @@ struct StateReducer: Reducer {
         case let action as EditDeck:
             action.deck.name = action.name ?? action.deck.name
             action.deck.format = action.format ?? action.deck.format
-            
-        case let action as IncrementCardAmount:
-            action.card.amount = action.card.amount + 1
-            
-        case let action as DecrementCardAmount:
-            let request = Card.createFetchRequest()
-            request.predicate = NSPredicate(format: "deck.id == %@ AND id == %@", action.deck.id, action.cardId)
-            if let cards = try? appDelegate.persistentContainer.viewContext.fetch(request) {
-                if !cards.isEmpty {
-                    cards[0].amount = max(cards[0].amount - 1, 0)
-                }
-            } else {
-                print("core data error fetching")
-            }
-            appDelegate.saveContext()
-            
-        case let action as UpdateCardReference:
-            let request = Card.createFetchRequest()
-            request.predicate = NSPredicate(format: "deck.id == %@ AND id == %@", action.deck.id, action.cardId)
-            if let cards = try? appDelegate.persistentContainer.viewContext.fetch(request) {
-                if !cards.isEmpty {
-                    if cards[0].amount == 0 {
-                        appDelegate.persistentContainer.viewContext.delete(cards[0])
-                    }
-                }
-            }
-            appDelegate.saveContext()
             
         case let action as DeleteDeck:
             let request = Card.createFetchRequest()
@@ -89,7 +65,45 @@ struct StateReducer: Reducer {
             appDelegate.persistentContainer.viewContext.delete(action.deck)
             appDelegate.saveContext()
             state.decks.remove(at: action.index)
+
             
+        // MARK: - Card Actions
+            
+        case let action as AddSideboardCardToDeck:
+            let request = Card.createFetchRequest()
+            request.predicate = NSPredicate(format: "deck.id == %@ AND id == %@ AND isSideboard == false", action.deck.id, action.sideboardCard.id)
+            if let existingCards = try? appDelegate.persistentContainer.viewContext.fetch(request) {
+                if !existingCards.isEmpty {
+                    // Card already exists in mainboard, just update its amount.
+                    existingCards[0].amount += 1
+                } else {
+                    // Create new Card, add to deck.
+                    let card = Card(context: appDelegate.persistentContainer.viewContext)
+                    card.imageData = action.sideboardCard.imageData
+                    card.isDownloadingImage = false
+                    card.amount = 1
+                    card.cmc = action.sideboardCard.cmc
+                    card.colors = action.sideboardCard.colors
+                    card.id = action.sideboardCard.id
+                    card.imageUrl = action.sideboardCard.imageUrl
+                    card.manaCost = action.sideboardCard.manaCost
+                    card.name = action.sideboardCard.name
+                    card.power = action.sideboardCard.power
+                    card.rarity = action.sideboardCard.rarity
+                    card.set = action.sideboardCard.set
+                    card.text = action.sideboardCard.text
+                    card.toughness = action.sideboardCard.toughness
+                    card.type = action.sideboardCard.type
+                    card.names = action.sideboardCard.names
+                    card.layout = action.sideboardCard.layout
+                    card.isSideboard = false
+                    card.deck = action.deck
+                }
+            } else {
+                print("core data error fetching")
+            }
+            appDelegate.saveContext()
+        
         case let action as AddCardResultToDeck:
             let request = Card.createFetchRequest()
             request.predicate = NSPredicate(format: "deck.id == %@ AND id == %@ AND isSideboard == false", action.deck.id, action.card.id)
@@ -137,6 +151,7 @@ struct StateReducer: Reducer {
                     card.colors = action.card.colors?.joined(separator: ", ") ?? "Colorless"
                     card.names = action.card.names?.joined(separator: "|")
                     card.deck = action.deck
+                    card.layout = action.card.layout
                     card.isSideboard = false
                     card.amount = 1
                 }
@@ -145,32 +160,41 @@ struct StateReducer: Reducer {
             }
             appDelegate.saveContext()
             
-        case let action as RemoveCardFromDeck:
-            appDelegate.persistentContainer.viewContext.delete(action.card)
+        case let action as AddMainboardCardToSideboard:
+            let request = Card.createFetchRequest()
+            request.predicate = NSPredicate(format: "deck.id == %@ AND id == %@ AND isSideboard == true", action.deck.id, action.mainboardCard.id)
+            if let existingCards = try? appDelegate.persistentContainer.viewContext.fetch(request) {
+                if !existingCards.isEmpty {
+                    // Card already exists in sideboard, just update its amount.
+                    existingCards[0].amount += 1
+                } else {
+                    // Create new Card, add to deck.
+                    let card = Card(context: appDelegate.persistentContainer.viewContext)
+                    card.imageData = action.mainboardCard.imageData
+                    card.isDownloadingImage = false
+                    card.amount = 1
+                    card.cmc = action.mainboardCard.cmc
+                    card.colors = action.mainboardCard.colors
+                    card.id = action.mainboardCard.id
+                    card.imageUrl = action.mainboardCard.imageUrl
+                    card.manaCost = action.mainboardCard.manaCost
+                    card.name = action.mainboardCard.name
+                    card.power = action.mainboardCard.power
+                    card.rarity = action.mainboardCard.rarity
+                    card.set = action.mainboardCard.set
+                    card.text = action.mainboardCard.text
+                    card.toughness = action.mainboardCard.toughness
+                    card.type = action.mainboardCard.type
+                    card.names = action.mainboardCard.names
+                    card.layout = action.mainboardCard.layout
+                    card.isSideboard = true
+                    card.deck = action.deck
+                }
+            } else {
+                print("core data error fetching")
+            }
             appDelegate.saveContext()
-            
-        case let action as SearchForCards:
-            state.cardResults = action.results
-            state.parameters = action.parameters
-            state.shouldSearch = false
-            state.isLoading = action.isLoading
-            state.remainingRequests = action.remainingRequests
-            
-        case let action as SearchForAdditionalCards:
-            state.additionalCardResults = action.results
-            state.isLoading = action.isLoading
-            state.remainingRequests = action.remainingRequests
-            
-        case let action as SetNewParameters:
-            state.parameters = action.parameters
-            state.shouldSearch = true
-            
-        case is ImagesDownloadComplete:
-            state.isDownloadingImages = false
-            
-        case let action as MoveCardToSideboard:
-            action.card.isSideboard = true
-            
+
         case let action as AddCardResultToSideboard:
             let request = Card.createFetchRequest()
             request.predicate = NSPredicate(format: "deck.id == %@ AND id == %@ AND isSideboard == true", action.deck.id, action.card.id)
@@ -218,14 +242,105 @@ struct StateReducer: Reducer {
                     card.colors = action.card.colors?.joined(separator: ", ") ?? "Colorless"
                     card.names = action.card.names?.joined(separator: "|")
                     card.deck = action.deck
+                    card.layout = action.card.layout
                     card.isSideboard = true
                     card.amount = 1
                 }
+            } else {
+                print("core data error fetching")
             }
+            appDelegate.saveContext()
 
+        case let action as IncrementMainboardCardAmount:
+            let request = Card.createFetchRequest()
+            request.predicate = NSPredicate(format: "deck.id == %@ AND id == %@ AND isSideboard == false", action.deck.id, action.card.id)
+            if let cards = try? appDelegate.persistentContainer.viewContext.fetch(request) {
+                if !cards.isEmpty {
+                    cards[0].amount += 1
+                }
+            } else {
+                print("core data error fetching")
+            }
+            appDelegate.saveContext()
+            
+        case let action as IncrementSideboardCardAmount:
+            let request = Card.createFetchRequest()
+            request.predicate = NSPredicate(format: "deck.id == %@ AND id == %@ AND isSideboard == true", action.deck.id, action.card.id)
+            if let cards = try? appDelegate.persistentContainer.viewContext.fetch(request) {
+                if !cards.isEmpty {
+                    cards[0].amount += 1
+                }
+            } else {
+                print("core data error fetching")
+            }
+            appDelegate.saveContext()
+            
+        case let action as DecrementMainboardCardAmount:
+            let request = Card.createFetchRequest()
+            request.predicate = NSPredicate(format: "deck.id == %@ AND id == %@ AND isSideboard == false", action.deck.id, action.cardId)
+            if let cards = try? appDelegate.persistentContainer.viewContext.fetch(request) {
+                if !cards.isEmpty {
+                    cards[0].amount = max(cards[0].amount - 1, 0)
+                }
+            } else {
+                print("core data error fetching")
+            }
+            appDelegate.saveContext()
+            
+        case let action as DecrementSideboardCardAmount:
+            let request = Card.createFetchRequest()
+            request.predicate = NSPredicate(format: "deck.id == %@ AND id == %@ AND isSideboard == true", action.deck.id, action.cardId)
+            if let cards = try? appDelegate.persistentContainer.viewContext.fetch(request) {
+                if !cards.isEmpty {
+                    cards[0].amount = max(cards[0].amount - 1, 0)
+                }
+            } else {
+                print("core data error fetching")
+            }
+            appDelegate.saveContext()
+            
+        case let action as RemoveCardFromDeck:
+            appDelegate.persistentContainer.viewContext.delete(action.card)
+            appDelegate.saveContext()
+            
+        case let action as UpdateCardReference:
+            let request = Card.createFetchRequest()
+            request.predicate = NSPredicate(format: "deck.id == %@ AND id == %@", action.deck.id, action.cardId)
+            if let cards = try? appDelegate.persistentContainer.viewContext.fetch(request) {
+                if !cards.isEmpty {
+                    for card in cards {
+                        if card.amount == 0 {
+                            appDelegate.persistentContainer.viewContext.delete(card)
+                        }
+                    }
+                }
+            }
+            appDelegate.saveContext()
+        
+            
+        // MARK: - Search Actions
+            
+        case let action as SearchForCards:
+            state.cardResults = action.result
+            state.parameters = action.parameters
+            state.shouldSearch = false
+            state.isLoading = action.isLoading
+            
+        case let action as SearchForAdditionalCards:
+            state.additionalCardResults = action.result
+            state.isLoading = action.isLoading
+            
+        case let action as PrepareForSearch:
+            state.parameters = action.parameters
+            state.shouldSearch = true
+            
+        case is ImagesDownloadComplete:
+            state.isDownloadingImages = false
+            
             
         default:
             break
+            
         }
         
         return state

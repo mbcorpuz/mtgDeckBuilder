@@ -12,6 +12,7 @@ import ObjectMapper
 struct ApiResult: Mappable {
     
     var cards: [CardResult]!
+    var headers: [AnyHashable: Any]?
     
     init?(map: Map) { }
     

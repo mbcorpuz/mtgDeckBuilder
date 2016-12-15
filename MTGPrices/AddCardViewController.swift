@@ -12,17 +12,29 @@ import ReSwift
 class AddCardViewController: UIViewController, StoreSubscriber {
 
     // MARK: - IBOutlets
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     
     
     // MARK: - Properties
+    
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var deck: Deck!
     var cardResults = [CardResult]()
-    var searchedText: String?
     var parameters: [String: Any] = [:]
+    var headers: [AnyHashable: Any]?
     
+    var rowIsSelected = false
+    var selectedIndexPath: IndexPath?
+    var isDirty = true
+    var isDownloadingInitialResults = false
+    var isDownloadingAdditionalPages = false
+    var currentPage = 1 {
+        didSet {
+            parameters["page"] = currentPage
+        }
+    }
     
     // MARK: - View Lifecycle Methods
     
@@ -30,18 +42,30 @@ class AddCardViewController: UIViewController, StoreSubscriber {
         super.viewDidLoad()
 
         title = "Card Search"
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Quick Search", style: .plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filters", style: .plain, target: self, action: #selector(advancedSearchButtonTapped))
         
         searchBar.scopeButtonTitles = ["Alphabetical", "Color", "CMC"]
         searchBar.showsScopeBar = true
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         store.subscribe(self)
-        searchBar.selectedScopeButtonIndex = 0
+        
+        switch searchBar.selectedScopeButtonIndex {
+        case 0: parameters["orderBy"] = "name"
+        case 1: parameters["orderBy"] = "colors"
+        default: parameters["orderBy"] = "cmc"
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let indexPath = selectedIndexPath {
+            tableView.deselectRow(at: indexPath, animated: true)
+            selectedIndexPath = nil
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -57,15 +81,8 @@ class AddCardViewController: UIViewController, StoreSubscriber {
     
     // MARK: - Methods
     
-    func configureParameters() {
-        self.searchBar.resignFirstResponder()
-        if let cardName = searchBar.text {
-            parameters["name"] = cardName
-            submitSearch()
-        }
-    }
-    
     @objc private func advancedSearchButtonTapped() {
+        isDirty = true
         self.searchBar.resignFirstResponder()
         if let vc = storyboard?.instantiateViewController(withIdentifier: "AdvancedSearchTableViewController") as? AdvancedSearchTableViewController {
             vc.cardName = searchBar.text
@@ -73,34 +90,43 @@ class AddCardViewController: UIViewController, StoreSubscriber {
         }
     }
     
-    private func submitSearch() {
-        store.dispatch(searchForCardsActionCreator(url: "https://api.magicthegathering.io/v1/cards", parameters: parameters))
-    }
-    
     
     // MARK: - StoreSubscriber Delegate Methods
     
     func newState(state: State) {
+        guard isDirty else { return }
+        
         if let newParameters = state.parameters {
-            self.parameters = newParameters
+            parameters = newParameters
+            searchBar.text = (parameters["name"] as? String) ?? nil
         }
         
         if state.shouldSearch {
-            submitSearch()
+            // Just came back from AdvancedSearchViewController with new parameters.
+            currentPage = 1
+            isDownloadingInitialResults = true
+            cardResults.removeAll()
+            tableView.reloadData()
+            store.dispatch(searchForCardsActionCreator(url: "https://api.magicthegathering.io/v1/cards", parameters: parameters))
         } else {
-            searchBar.text = (parameters["name"] as? String) ?? nil
             if let result = state.cardResults {
+                isDownloadingInitialResults = false
+                isDirty = false
                 if result.isSuccess {
-                    self.cardResults = result.value!
+                    if isDownloadingAdditionalPages {
+                        isDownloadingAdditionalPages = false
+                        cardResults.append(contentsOf: result.value!.cards)
+                        rowIsSelected = false
+                    } else {
+                        cardResults = result.value!.cards
+                    }
+                    headers = result.value!.headers
                     tableView.reloadData()
                 } else {
-                    if let error = result.error {
-                        print("error: \(error)")
-                    }
+                    tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel?.text = "Error Retrieving Cards"
                 }
             }
         }
     }
     
-
 }

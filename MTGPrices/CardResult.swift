@@ -27,6 +27,7 @@ struct CardResult: Mappable {
     var subtypes: [String]?
     var types: [String]!
     var supertypes: [String]?
+    var layout: String!
     
     init?(map: Map) { }
     
@@ -35,10 +36,8 @@ struct CardResult: Mappable {
         let intToString = TransformOf<String, Int>(
             fromJSON: { (value: Int?) -> String? in
                 if let value = value {
-//                    print("mapping '\(value)' cmc as a string")
                     return String(value)
                 } else {
-//                    print("mapped cmc to 'none'")
                     return "None"
                 }
             },
@@ -67,6 +66,7 @@ struct CardResult: Mappable {
         subtypes    <- map["subtypes"]
         types       <- map["types"]
         supertypes  <- map["supertypes"]
+        layout      <- map["layout"]
         
     }
     

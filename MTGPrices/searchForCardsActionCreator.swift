@@ -21,7 +21,7 @@ func searchForCardsActionCreator(url: URLConvertible, parameters: Parameters) ->
                 print("error retrieving cards")
                 let errorCode = ErrorCode(rawValue: response.response?.statusCode ?? 0)
                 let apiError = ApiError(status: errorCode, type: nil, message: "Error retrieving card data")
-                store.dispatch(SearchForCards(results: Result.failure(apiError), parameters: parameters, isLoading: false, remainingRequests: nil))
+                store.dispatch(SearchForCards(result: Result.failure(apiError), parameters: parameters, isLoading: false))
                 return
             }
             guard response.response?.statusCode == 200 else {
@@ -29,20 +29,15 @@ func searchForCardsActionCreator(url: URLConvertible, parameters: Parameters) ->
                 // Assuming statusCode is guaranteed to have a non-optional value.
                 // TODO: - Check that ^
                 let apiError = Mapper<ApiError>().map(JSONObject: json)!
-                store.dispatch(SearchForCards(results: Result.failure(apiError), parameters: parameters, isLoading: false, remainingRequests: nil))
+                store.dispatch(SearchForCards(result: Result.failure(apiError), parameters: parameters, isLoading: false))
                 return
             }
             
-            print("no error retrieving")
-            var remainingRequests: Int? = nil
-            if let limitString = (response.response?.allHeaderFields["ratelimit-remaining"] as? String) {
-                remainingRequests = Int(limitString)
-                print("remaining requests this hour: \(remainingRequests!)")
-            }
-            if let retrievedCards = Mapper<ApiResult>().map(JSONObject: json) {
-                store.dispatch(SearchForCards(results: Result.success(retrievedCards.cards), parameters: parameters, isLoading: false, remainingRequests: remainingRequests))
+            if var apiResult = Mapper<ApiResult>().map(JSONObject: json) {
+                apiResult.headers = response.response?.allHeaderFields
+                store.dispatch(SearchForCards(result: Result.success(apiResult), parameters: parameters, isLoading: false))
             }
         }
-        return SearchForCards(results: nil, parameters: parameters, isLoading: true, remainingRequests: nil)
+        return SearchForCards(result: nil, parameters: parameters, isLoading: true)
     }
 }
